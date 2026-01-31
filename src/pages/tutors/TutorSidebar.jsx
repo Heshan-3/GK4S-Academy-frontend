@@ -48,25 +48,7 @@ export default function TutorSidebar({
 
           {/* Navigation */}
           <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
-            {TUTOR_LINKS.map(({ id, label, icon: Icon }) => {
-              const isActive = activePage === id;
-              return (
-                <button
-                  key={id}
-                  onClick={() => onNavigate(id)}
-                  className={`
-                    w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-colors
-                    ${isActive
-                      ? "bg-[#8b9a7d] text-[#1e3a5f] font-medium"
-                      : "text-gray-300 hover:bg-[#2d4b75] hover:text-white"
-                    }
-                  `}
-                >
-                  <Icon className={`h-5 w-5 ${isActive ? "text-[#1e3a5f]" : "text-gray-400"}`} />
-                  {label}
-                </button>
-              );
-            })}
+            
           </nav>
 
           {/* User / Logout */}
