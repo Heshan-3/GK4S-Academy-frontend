@@ -16,11 +16,20 @@ export default function Login() {
       .post(`${backendUrl}/api/users/login/`, { email, password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        res.data.user.role === "admin"
-          ? navigate("/admin")
-          : navigate("/");
+        const user = res.data.user;
+        const role = res.data.user.role?.toLowerCase().trim(); // <-- nested role
+        console.log(user.role)
+        if (role === "admin") {
+          navigate("/admin");
+        } else if (role === "tutor") {
+          navigate("/tutor");
+        } else {
+          navigate("/");
+        }
+
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         alert("Invalid email or password");
       });
   };
