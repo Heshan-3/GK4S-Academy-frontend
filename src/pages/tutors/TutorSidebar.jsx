@@ -37,7 +37,7 @@ export default function TutorSidebar({
             <div className="flex items-center gap-3">
               <BookOpen className="h-8 w-8 text-[#8b9a7d]" />
               <span className="text-2xl font-bold font-serif tracking-tight">
-                Learnify
+                GK4S Academy
               </span>
             </div>
             <div className="mt-2 px-2 py-1 bg-[#2d4b75] rounded text-xs font-medium text-[#8b9a7d] uppercase">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Timer, Video } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function AdminContents() {
@@ -32,7 +32,7 @@ export default function AdminContents() {
                     <div 
                         key={course._id}
                         className="flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        onClick={() => navigate(`/course/${course._id}`)}
+                        // onClick={() => navigate(`/course/${course._id}`)}
                     >
                         {/* Left: Icon/Image Placeholder */}
                         <div className="w-40 h-24 bg-blue-100 rounded-xl flex items-center justify-center text-blue-500 mr-6 shrink-0">
@@ -47,6 +47,35 @@ export default function AdminContents() {
                             <p className="text-gray-500 text-sm mb-4 line-clamp-1">
                                 {course.description}
                             </p>
+                            <p className="text-gray-500 text-sm mb-4 line-clamp-1">
+                                {course.tutor?.firstName} {course.tutor?.lastName || "Unknown Tutor"}
+                            </p>
+                            <div className="flex items-center gap-6 text-gray-400 text-sm">
+                                <div className="flex items-center gap-1.5">
+                                    <span>LKR {course.price}</span> {/* Placeholder: Add to Schema later */}
+                                </div>
+                                <div className="flex items-center gap-1.5">
+                                    <Video size={18} />
+                                    <a 
+                                        href={course.videoLink} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="hover:text-blue-600 transition-colors cursor-pointer underline-offset-4 hover:underline"
+                                    >
+                                        {course.videoLink}
+                                    </a> {/* Placeholder: Add to Schema later */}
+                                </div>
+                                <div className="flex items-center gap-1.5 ml-auto">
+                                    <Timer size={18} className="text-yellow-400 fill-yellow-400" />
+                                    <span className="font-medium text-gray-600">
+                                        {new Date(course.createdAt).toLocaleDateString('en-US', {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric'
+                                        })}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))}
