@@ -1,16 +1,22 @@
-// components/RequestAccess.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export default function RequestAccess({ contentId, isPaid }) {
+export default function RequestAccess({ contentId, isPaid, initialStatus }) {
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(null);
+  // Status can be 'none', 'pending', or 'approved'
+  const [status, setStatus] = useState(initialStatus || 'none');
 
-  const handleRequest = async () => {
+  useEffect(() => {
+    setStatus(initialStatus);
+  }, [initialStatus]);
+
+  const handleRequest = async (e) => {
+    e.stopPropagation();
     setLoading(true);
     const token = localStorage.getItem("token");
+
     try {
-      const res = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/requests/request-access`,
         { contentId },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -18,26 +24,37 @@ export default function RequestAccess({ contentId, isPaid }) {
       setStatus('pending');
       alert("Request sent!");
     } catch (err) {
-      if (err.response?.status === 400) setStatus('pending');
-      else alert("Error sending request");
+      // If 400, it means it's already pending in the DB
+      if (err.response?.status === 400) {
+        setStatus('pending');
+        alert("You have already requested this course.");
+      } else {
+        alert("Error: " + (err.response?.data?.message || "Something went wrong"));
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // --- CONDITION 1: IS FREE ---
+  // 1. FREE COURSE
   if (!isPaid) {
     return (
-      <button 
-        className="w-full py-2 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition"
-        onClick={() => window.location.href = `/watch/${contentId}`}
-      >
-        Watch Free
+      <button className="w-full py-2 bg-green-600 text-white rounded-lg font-bold cursor-default">
+        Free Content
       </button>
     );
   }
 
-  // --- CONDITION 2: IS PAID ---
+  // 2. ALREADY APPROVED
+  if (status === 'approved') {
+    return (
+      <div className="w-full py-2 bg-blue-100 text-blue-700 rounded-lg font-bold text-center border border-blue-200">
+        ✓ Purchased
+      </div>
+    );
+  }
+
+  // 3. PENDING OR NEW REQUEST
   return (
     <div className="flex flex-col gap-2">
       <button
@@ -46,10 +63,10 @@ export default function RequestAccess({ contentId, isPaid }) {
         className={`w-full py-2 rounded-lg font-bold transition ${
           status === 'pending'
             ? "bg-yellow-500 text-white cursor-not-allowed"
-            : "bg-blue-600 text-white hover:bg-blue-700"
+            : "bg-[#1e3a5f] text-white hover:bg-[#2d4b75]"
         }`}
       >
-        {loading ? "Processing..." : status === 'pending' ? "Access Pending" : "Request Access to Buy"}
+        {loading ? "Processing..." : status === 'pending' ? "Access Pending" : "Buy / Request Access"}
       </button>
       {status === 'pending' && (
         <p className="text-[10px] text-center text-gray-500 italic">

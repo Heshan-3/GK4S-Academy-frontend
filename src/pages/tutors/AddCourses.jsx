@@ -6,6 +6,7 @@ export default function AddCourses() {
   const [videoLink, setVideoLink] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
+  const [isPaid, setIsPaid] = useState(true);
 
   async function handleAddCourse(e) {
     e.preventDefault();
@@ -20,6 +21,7 @@ export default function AddCourses() {
         {
           title,
           videoLink : videoLink,
+          isPaid,
           price,
           description,
         },
@@ -71,6 +73,19 @@ export default function AddCourses() {
             value={videoLink}
             onChange={(e) => setVideoLink(e.target.value)}
             className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none"
+          />
+        </div>
+
+        {/* Price */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Is the Course Paid?
+          </label>
+          <input
+            type="checkbox"
+            checked={isPaid}
+            onChange={(e) => setIsPaid(e.target.checked)}
+            className="w-4 h-4 text-[#1e3a5f] rounded focus:ring-[#1e3a5f]"
           />
         </div>
 

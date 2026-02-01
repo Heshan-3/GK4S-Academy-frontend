@@ -53,6 +53,9 @@ export default function StudentSidebar({
             <div>
                 <Link to="/student/contents" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Contents</Link>
             </div>
+            <div>
+                <Link to="/" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Home</Link>
+            </div>
           </nav>
 
           {/* User / Logout */}
