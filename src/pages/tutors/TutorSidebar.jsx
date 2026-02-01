@@ -9,8 +9,7 @@ import {
 
 
 export default function TutorSidebar({
-  activePage,
-  onNavigate,
+  currentUser,
   isMobileOpen,
   onCloseMobile,
 }) {
@@ -55,14 +54,15 @@ export default function TutorSidebar({
           <div className="p-4 border-t border-[#2d4b75]">
             <div className="flex items-center gap-3 mb-2">
               <div className="h-10 w-10 rounded-full bg-[#8b9a7d] flex items-center justify-center text-[#1e3a5f] font-bold font-serif">
-                DR
+                {currentUser?.firstName?.charAt(0)}
+                {currentUser?.lastName?.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-white truncate">
-                  Dr. Sarah Miller
+                  {currentUser?.firstName} {currentUser?.lastName}
                 </p>
                 <p className="text-xs text-gray-400 truncate">
-                  sarah@learnify.com
+                  {currentUser?.email}
                 </p>
               </div>
             </div>

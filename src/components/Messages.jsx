@@ -1,0 +1,145 @@
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { Send, Search } from 'lucide-react';
+
+export default function Messages() {
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [conversations, setConversations] = useState([]);
+    const scrollRef = useRef();
+
+    const currentUserId = localStorage.getItem("userId"); // Ensure you store this on login
+    const token = localStorage.getItem("token");
+
+    // Fetch messages from backend
+    const fetchMessages = async () => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/all`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setMessages(res.data);
+            groupConversations(res.data);
+        } catch (err) {
+            console.error("Error fetching messages", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchMessages();
+        const interval = setInterval(fetchMessages, 5000); // Polling for new messages
+        return () => clearInterval(interval);
+    }, []);
+
+    // Group unique users for the sidebar
+    const groupConversations = (allMsgs) => {
+        const users = {};
+        allMsgs.forEach(msg => {
+            const otherUser = msg.sender._id === currentUserId ? msg.receiver : msg.sender;
+            users[otherUser._id] = {
+                ...otherUser,
+                lastMessage: msg.message
+            };
+        });
+        setConversations(Object.values(users));
+    };
+
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        if (!newMessage.trim() || !selectedUser) return;
+
+        try {
+            await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/messages/send`, 
+            { receiverId: selectedUser._id, message: newMessage },
+            { headers: { Authorization: `Bearer ${token}` } });
+            
+            setNewMessage("");
+            fetchMessages();
+        } catch (err) {
+            console.error("Send error", err);
+        }
+    };
+
+    // Filter messages for the active chat
+    const activeMessages = messages.filter(m => 
+        (m.sender._id === selectedUser?._id || m.receiver._id === selectedUser?._id)
+    );
+
+    return (
+        <div className="flex h-[600px] w-full max-w-5xl mx-auto border border-gray-300 rounded-xl overflow-hidden bg-white shadow-lg">
+            
+            {/* LEFT SIDEBAR */}
+            <div className="w-1/3 border-r border-gray-300 flex flex-col">
+                <div className="p-4 bg-gray-50/50">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+                        <input 
+                            type="text" 
+                            placeholder="Search messages..." 
+                            className="w-full pl-10 pr-4 py-2 bg-gray-100 border-none rounded-lg focus:ring-1 focus:ring-blue-500 text-sm"
+                        />
+                    </div>
+                </div>
+                <div className="flex-1 overflow-y-auto">
+                    {conversations.map(user => (
+                        <div 
+                            key={user._id}
+                            onClick={() => setSelectedUser(user)}
+                            className={`p-4 border-b border-gray-100 cursor-pointer transition-colors ${selectedUser?._id === user._id ? 'bg-blue-50/50' : 'hover:bg-gray-50'}`}
+                        >
+                            <h4 className="font-bold text-[#1e3a5f]">{user.name || "User"}</h4>
+                            <p className="text-sm text-gray-500 truncate">{user.lastMessage}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* RIGHT CHAT WINDOW */}
+            <div className="flex-1 flex flex-col">
+                {selectedUser ? (
+                    <>
+                        {/* Header */}
+                        <div className="p-4 border-b border-gray-300">
+                            <h3 className="font-bold text-[#1e3a5f] text-lg">{selectedUser.name}</h3>
+                        </div>
+
+                        {/* Messages Area */}
+                        <div className="flex-1 p-6 overflow-y-auto bg-white flex flex-col gap-4">
+                            {activeMessages.map((msg, idx) => {
+                                const isMe = msg.sender._id === currentUserId;
+                                return (
+                                    <div key={idx} className={`max-w-[80%] p-3 rounded-2xl shadow-sm text-sm ${
+                                        isMe 
+                                        ? "self-end bg-[#1e3a5f] text-white rounded-tr-none" 
+                                        : "self-start bg-gray-50 border border-gray-100 text-gray-800 rounded-tl-none"
+                                    }`}>
+                                        {msg.message}
+                                    </div>
+                                );
+                            })}
+                            <div ref={scrollRef} />
+                        </div>
+
+                        {/* Input Area */}
+                        <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-300 flex items-center gap-3">
+                            <input 
+                                type="text"
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                placeholder="Type a message..."
+                                className="flex-1 bg-gray-100 border-none rounded-full px-5 py-3 text-sm focus:ring-2 focus:ring-blue-500"
+                            />
+                            <button type="submit" className="bg-[#1e3a5f] text-white p-3 rounded-full hover:opacity-90 transition-opacity">
+                                <Send size={20} />
+                            </button>
+                        </form>
+                    </>
+                ) : (
+                    <div className="flex-1 flex items-center justify-center text-gray-400 italic">
+                        Select a conversation to start chatting
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
