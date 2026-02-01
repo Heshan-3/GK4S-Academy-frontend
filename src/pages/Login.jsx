@@ -24,7 +24,7 @@ export default function Login() {
         } else if (role === "tutor") {
           navigate("/tutor");
         } else {
-          navigate("/");
+          navigate("/student");
         }
 
       })

@@ -142,14 +142,14 @@ export default function Course() {
   const [allCourses, setAllCourses] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    useEffect(() => {
-      axios
-        .get(`${backendUrl}/api/contents/public`)
-        .then((res) => {
-          setAllCourses(res.data);
-        })
-        .catch((err) => console.error(err));
-    }, []);
+  useEffect(() => {
+  axios
+    .get(`${backendUrl}/api/contents/featured`) // 🔥 Change this from 'public' to 'featured'
+    .then((res) => {
+      setAllCourses(res.data);
+    })
+    .catch((err) => console.error("Error loading courses:", err));
+  }, [backendUrl]);
 
 
   return (

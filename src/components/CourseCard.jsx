@@ -1,15 +1,21 @@
+import RequestAccess from "../pages/students/RequestAccess";
+
 export default function CourseCard({ content }) {
   // 🔐 Prevent crash when data is not yet available
   if (!content) return null;
 
   // Destructure only the fields from your Content model
   const {
+    _id,
+    isPaid,
     title = "Untitled Course",
     tutor,
     image, // Ensure your backend provides this URL
     price = 0,
     description = "No description available.",
   } = content;
+
+  console.log(`Course: ${title}, isPaid: ${isPaid}`);
 
   const author = tutor?.firstName || "Unknown Tutor";
   const displayPrice = price === 0 ? "Free" : `$${price}`;
@@ -43,6 +49,12 @@ export default function CourseCard({ content }) {
         <p className="text-sm text-gray-500 mt-3 line-clamp-2">
           {description}
         </p>
+        <div className="mt-4">
+          <RequestAccess
+            contentId={_id}
+            isPaid={isPaid}
+          />
+        </div>
       </div>
     </div>
   );
