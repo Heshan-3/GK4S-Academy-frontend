@@ -4,6 +4,7 @@ import AdminSidebar from "./AdminSidebar";
 import { Routes } from "react-router-dom";
 import { Route } from "react-router-dom";
 import AdminUsers from "./AdminUsers";
+import AdminContents from "./AdminContents";
 
 export default function AdminDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
@@ -86,6 +87,7 @@ export default function AdminDashboard() {
         <div>
             <Routes>
                 <Route path="users" element={<AdminUsers/>}></Route>
+                <Route path="contents" element={<AdminContents/>}></Route>
             </Routes>
         </div>
       </main>

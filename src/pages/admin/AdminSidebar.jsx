@@ -53,6 +53,9 @@ export default function AdminSidebar({
             <div>
                 <Link to="/admin/users" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Users</Link>
             </div>
+            <div>
+                <Link to="/admin/contents" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Contents</Link>
+            </div>
           </nav>
 
           {/* User / Logout */}

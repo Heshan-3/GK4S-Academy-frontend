@@ -4,10 +4,10 @@ import { BookOpenIcon, MailIcon, PhoneIcon, MapPinIcon } from 'lucide-react';
 
 const footerLinks = {
   explore: [
-    { name: 'All Courses', href: '/courses' },
-    { name: 'Learning Paths', href: '/courses' },
+    { name: 'All Courses', href: '/course' },
+    { name: 'Learning Paths', href: '/course' },
     { name: 'Tutors', href: '/instructors' },
-    { name: 'Categories', href: '/courses' }
+    { name: 'Categories', href: '/course' }
   ],
   company: [
     { name: 'About Us', href: '/about' },
