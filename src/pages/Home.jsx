@@ -21,70 +21,20 @@ const popularTags = [
 ];
 
 const stats = [
-  { icon: BookOpenIcon, value: '2,500+', label: 'Expert-Led Courses' },
-  { icon: UsersIcon, value: '850K+', label: 'Active Learners' },
-  { icon: AwardIcon, value: '15,000+', label: 'Certificates Issued' },
-  { icon: GlobeIcon, value: '120+', label: 'Countries Reached' }
+  { icon: BookOpenIcon, label: 'Expert-Led Courses' },
+  { icon: UsersIcon, label: 'Active Learners' },
+  { icon: AwardIcon, label: 'Certificates Issued' },
+  { icon: GlobeIcon, label: 'Countries Reached' }
 ];
 
-const featuredCourses = [
-  {
-    id: '1',
-    title: 'Introduction to Ancient Philosophy',
-    instructor: 'Dr. Sarah Chen',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop',
-    rating: 4.9,
-    students: 12450,
-    duration: '8 weeks',
-    price: 79,
-    category: 'Philosophy',
-    level: 'Beginner'
-  },
-  {
-    id: '2',
-    title: 'Data Science Fundamentals',
-    instructor: 'Prof. Michael Torres',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
-    rating: 4.8,
-    students: 28300,
-    duration: '12 weeks',
-    price: 129,
-    category: 'Data Science',
-    level: 'Intermediate'
-  },
-  {
-    id: '3',
-    title: 'Creative Writing Workshop',
-    instructor: 'Dr. Emily Watson',
-    image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop',
-    rating: 4.9,
-    students: 8920,
-    duration: '6 weeks',
-    price: 59,
-    category: 'Writing',
-    level: 'Beginner'
-  },
-  {
-    id: '4',
-    title: 'Art History: Renaissance to Modern',
-    instructor: 'Prof. James Mitchell',
-    image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop',
-    rating: 4.7,
-    students: 6780,
-    duration: '10 weeks',
-    price: 89,
-    category: 'Art History',
-    level: 'Intermediate'
-  }
-];
 
 const categories = [
-  { name: 'Philosophy', count: 124, icon: '🏛️' },
-  { name: 'Data Science', count: 256, icon: '📊' },
-  { name: 'Creative Writing', count: 89, icon: '✍️' },
-  { name: 'Art History', count: 67, icon: '🎨' },
-  { name: 'Psychology', count: 143, icon: '🧠' },
-  { name: 'Business', count: 198, icon: '💼' }
+  { name: 'Philosophy', icon: '🏛️' },
+  { name: 'Data Science', icon: '📊' },
+  { name: 'Creative Writing', icon: '✍️' },
+  { name: 'Art History', icon: '🎨' },
+  { name: 'Psychology', icon: '🧠' },
+  { name: 'Business', icon: '💼' }
 ];
 
 
@@ -151,7 +101,7 @@ export default function Home() {
             {popularTags.map((tag) => (
               <Link
                 key={tag}
-                to="/courses"
+                to="/course"
                 className="px-4 py-2 bg-white/10 text-white text-sm rounded-full hover:bg-white/20 transition-colors"
               >
                 {tag}
@@ -189,7 +139,7 @@ export default function Home() {
               </p>
             </div>
             <Link
-              to="/courses"
+              to="/course"
               className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sage font-medium hover:text-sage-dark transition-colors"
             >
               View All Courses
