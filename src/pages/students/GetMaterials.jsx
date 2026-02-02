@@ -6,34 +6,32 @@ export default function GetMaterials({ courseId }) {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        // We fetch all, then filter. (Better: update backend to /api/materials/${courseId})
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/materials/all`, {
-        headers: { Authorization: `Bearer ${token}` },
-        });
+  // inside GetReview.jsx
+useEffect(() => {
+  // 🛑 STOP: Only fetch if the student actually clicked the button
+  if (!isOpen || !contentId) return;
 
-        // We map through res.data and force the courseId to a string for the comparison
-        const filtered = res.data.filter(m => {
-        const idFromDb = m.courseId?._id ? m.courseId._id : m.courseId;
-        return String(idFromDb) === String(courseId);
-        });
+  const fetchReviews = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token"); // Get your JWT
+      
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/api/reviews/content/${contentId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` } // 🔑 Add this to fix 401
+        }
+      );
+      setReviews(response.data);
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        console.log("Match Found:", filtered);
-        setMaterials(filtered);
-        console.log("Raw materials from DB:", res.data);
-        console.log("Searching for courseId:", courseId);
-      } catch (err) {
-        console.error("Failed to fetch materials", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (courseId) fetchMaterials();
-  }, [courseId]);
+  fetchReviews();
+}, [isOpen, contentId]); // Only runs when modal opens or ID changes
 
   if (loading) return <Loader2 className="animate-spin text-blue-500" />;
 

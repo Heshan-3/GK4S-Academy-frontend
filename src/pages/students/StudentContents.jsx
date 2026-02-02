@@ -1,13 +1,15 @@
 import axios from "axios";
-import { BookOpen, Timer, Video, CheckCircle } from "lucide-react";
+import { BookOpen, Timer, Video, CheckCircle, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import RequestAccess from "./RequestAccess"; // Ensure the path is correct
 import GetMaterials from "./GetMaterials";
+import ReviewModal from "./AddReview";
 
 export default function StudentContents() {
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCourse, setActiveCourse] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 1. Fetch all contents on mount
   useEffect(() => {
@@ -92,6 +94,26 @@ export default function StudentContents() {
                     {activeCourse === course._id && (
                       <GetMaterials courseId={course._id} />
                     )}
+
+                    <div className="mt-6 flex gap-3">
+                      
+                      {/* THE REVIEW TRIGGER BUTTON */}
+                      <button 
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-4 py-2.5 bg-yellow-50 text-yellow-700 rounded-xl hover:bg-yellow-100 transition flex items-center gap-2 border border-yellow-200"
+                      >
+                        <Star size={18} className="fill-yellow-500 text-yellow-500" />
+                        <span className="font-bold text-sm">Review</span>
+                      </button>
+                    </div>
+
+                    {/* POP-UP MODAL */}
+                    <ReviewModal 
+                      isOpen={isModalOpen} 
+                      onClose={() => setIsModalOpen(false)} 
+                      contentId={course._id} 
+                      courseTitle={course.title} 
+                    />
                 </div>
               </div>
             </div>
