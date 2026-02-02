@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { StarIcon, UsersIcon, BookOpenIcon } from 'lucide-react';
+import { StarIcon, UsersIcon, BookOpenIcon, User, User2, UserCircle2, UserCircle, LucideUserCircle, UserCog2 } from 'lucide-react';
 
-export default function TutorCard({ name, title, expertise, image, rating, students, courses, bio }) {
+export default function TutorCard({ name, title, expertise, image, courses, bio }) {
 
   return (
     <Link
@@ -12,7 +12,7 @@ export default function TutorCard({ name, title, expertise, image, rating, stude
       {/* Profile Header */}
       <div className="flex items-start gap-4 mb-4">
         <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
-          <img src={image} alt={name} className="w-full h-full object-cover" />
+          <UserCircle2 className="w-full h-full object-cover" />
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-serif text-lg font-semibold text-navy group-hover:text-sage-dark transition-colors">

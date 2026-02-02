@@ -298,7 +298,7 @@ export default function About() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/courses"
+              to="/course"
               className="px-8 py-3 bg-sage text-white font-medium rounded-lg hover:bg-sage-dark transition-colors inline-flex items-center justify-center gap-2">
 
               Explore Courses

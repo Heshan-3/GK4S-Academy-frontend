@@ -84,16 +84,6 @@ export default function Tutor() {
                 className="flex-1 px-3 py-3 text-gray-700 placeholder-gray-400 focus:outline-none"
               />
             </div>
-
-            <select
-              value={selectedExpertise}
-              onChange={(e) => setSelectedExpertise(e.target.value)}
-              className="px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-700 focus:outline-none"
-            >
-              {expertiseAreas.map((area) => (
-                <option key={area} value={area}>{area}</option>
-              ))}
-            </select>
           </div>
           <p className="mt-4 text-sm text-gray-600">
             Showing <span className="font-medium">{filteredInstructors.length}</span> instructors

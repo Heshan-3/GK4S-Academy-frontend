@@ -28,7 +28,6 @@ export default function AdminContents() {
         if (window.confirm("Are you sure you want to delete this course?")) {
             const token = localStorage.getItem("token");
 
-            // Optimistic UI update: Remove from state immediately
             setContents(contents.filter((content) => content._id !== id));
 
             axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/contents/delete/${id}`, {
@@ -36,12 +35,12 @@ export default function AdminContents() {
             })
             .then((res) => {
                 console.log("Deleted:", res.data);
-                // No need to setItemLoaded(false) unless you have that state defined elsewhere
+            
             })
             .catch((err) => {
                 console.error(err);
                 alert("Failed to delete. Refreshing list.");
-                setLoading(true); // Trigger a re-fetch if delete fails
+                setLoading(true); 
             });
         }
     }

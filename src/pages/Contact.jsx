@@ -3,11 +3,9 @@ import axios from 'axios';
 import {
   MailIcon,
   PhoneIcon,
-  MapPinIcon,
-  ClockIcon,
-  SendIcon,
   CheckCircleIcon,
-  AlertCircleIcon
+  AlertCircleIcon,
+  LocateIcon
 } from 'lucide-react';
 
 export default function Contact() {
@@ -207,8 +205,9 @@ export default function Contact() {
             <div>
               <h2 className="font-serif text-2xl text-navy mb-6">Contact Info</h2>
               <div className="space-y-6">
-                <ContactInfo icon={MailIcon} title="Email" value="hello@athenaeum.edu" />
-                <ContactInfo icon={PhoneIcon} title="Phone" value="+1 (555) 123-4567" />
+                <ContactInfo icon={MailIcon} title="Email" value="GK4SAcademy@gmail.com" />
+                <ContactInfo icon={PhoneIcon} title="Phone" value="077-123-4567" />
+                <ContactInfo icon={LocateIcon} title="Location" value="Gampaha, Sri Lanka" />
               </div>
             </div>
           </div>

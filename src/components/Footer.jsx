@@ -6,7 +6,7 @@ const footerLinks = {
   explore: [
     { name: 'All Courses', href: '/course' },
     { name: 'Learning Paths', href: '/course' },
-    { name: 'Tutors', href: '/instructors' },
+    { name: 'Tutors', href: '/tutors' },
     { name: 'Categories', href: '/course' }
   ],
   company: [
@@ -32,7 +32,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <BookOpenIcon className="h-7 w-7 text-sage" strokeWidth={1.5} />
-              <span className="text-xl font-semibold tracking-tight">Learnify</span>
+              <span className="text-xl font-semibold tracking-tight">GK4S Academy</span>
             </Link>
             <p className="text-gray-300 text-sm leading-relaxed mb-6 max-w-sm">
               Empowering lifelong learners with rigorous, expertly-crafted courses
@@ -44,18 +44,18 @@ export function Footer() {
                 className="flex items-center gap-2 hover:text-sage transition-colors"
               >
                 <MailIcon className="h-4 w-4" />
-                hello@learnify.com
+                GK4SAcademy@Gmail.com
               </a>
               <a
                 href="tel:+1-555-123-4567"
                 className="flex items-center gap-2 hover:text-sage transition-colors"
               >
                 <PhoneIcon className="h-4 w-4" />
-                +1 (555) 123-4567
+                077-123-4567
               </a>
               <span className="flex items-center gap-2">
                 <MapPinIcon className="h-4 w-4" />
-                San Francisco, CA 94102
+                Gampaha, Sri Lanka
               </span>
             </div>
           </div>
@@ -113,7 +113,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-400">
-            © 2026 Learnify. All rights reserved.
+            © 2026 GK4S Academy. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-gray-400">
             <Link to="/about" className="hover:text-white transition-colors">

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   SearchIcon,
-  ChevronDownIcon,
   BookOpenIcon,
   UsersIcon,
   AwardIcon,
@@ -12,13 +11,6 @@ import {
 } from 'lucide-react';
 import CourseCard  from '../components/CourseCard';
 import axios from 'axios';
-
-const popularTags = [
-  'Ancient Philosophy',
-  'Data Science',
-  'Creative Writing',
-  'Art History'
-];
 
 const stats = [
   { icon: BookOpenIcon, label: 'Expert-Led Courses' },
@@ -40,7 +32,6 @@ const categories = [
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
 
   const [featuredCourses, setFeaturedCourses] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -95,18 +86,6 @@ export default function Home() {
           </div>
 
           {/* Popular Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <span className="text-gray-400 text-sm">Popular:</span>
-            {popularTags.map((tag) => (
-              <Link
-                key={tag}
-                to="/course"
-                className="px-4 py-2 bg-white/10 text-white text-sm rounded-full hover:bg-white/20 transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -170,7 +149,7 @@ export default function Home() {
             {categories.map((category) => (
               <Link
                 key={category.name}
-                to="/courses"
+                to="/course"
                 className="group p-6 bg-cream rounded-xl text-center hover:bg-navy transition-colors duration-300"
               >
                 <span className="text-3xl mb-3 block">{category.icon}</span>
@@ -197,7 +176,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/courses"
+              to="/course"
               className="px-8 py-3 bg-sage text-white font-medium rounded-lg hover:bg-sage-dark transition-colors"
             >
               Browse Courses
