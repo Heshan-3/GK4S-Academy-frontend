@@ -41,22 +41,18 @@ const values = [
 const stats = [
 {
   icon: BookOpenIcon,
-  value: '2,500+',
   label: 'Expert-Led Courses'
 },
 {
   icon: UsersIcon,
-  value: '850K+',
   label: 'Active Learners'
 },
 {
   icon: AwardIcon,
-  value: '15,000+',
   label: 'Certificates Issued'
 },
 {
   icon: GlobeIcon,
-  value: '120+',
   label: 'Countries Reached'
 }];
 
@@ -105,39 +101,24 @@ const team = [
 }];
 
 const milestones = [
-{
-  year: '2018',
-  event:
-  'Athenaeum founded with a mission to make quality education accessible'
-},
-{
-  year: '2019',
-  event: 'Launched first 100 courses with 50 distinguished instructors'
-},
-{
-  year: '2020',
-  event: 'Reached 100,000 learners during global shift to online education'
-},
-{
-  year: '2021',
-  event: 'Expanded to 500+ courses across 20 disciplines'
-},
-{
-  year: '2022',
-  event: 'Introduced Learning Paths and professional certificates'
-},
-{
-  year: '2023',
-  event: 'Surpassed 500,000 learners from 100+ countries'
-},
-{
-  year: '2024',
-  event: 'Launched mobile app and AI-powered learning recommendations'
-},
-{
-  year: '2025',
-  event: 'Reached 850,000+ learners with 2,500+ courses'
-}];
+  {
+    year: '2023',
+    event: 'Idea born to create an accessible, modern learning platform'
+  },
+  {
+    year: '2024',
+    event: 'Built the foundation with core features and responsive UI'
+  },
+  {
+    year: '2025',
+    event: 'Soft launch with curated courses and growing learner community'
+  },
+  {
+    year: '2026',
+    event: 'Public launch with advanced tools, analytics, and personalized learning'
+  }
+];
+
 
 export default function About() {
   return (
@@ -259,44 +240,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <span className="text-sage font-medium text-sm uppercase tracking-wider">
-              Our Team
-            </span>
-            <h2 className="font-serif text-3xl md:text-4xl text-navy mt-2 mb-4">
-              Meet the Leadership
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Our diverse team brings together expertise from academia,
-              technology, and media to create exceptional learning experiences.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member) =>
-            <div key={member.name} className="text-center">
-                <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4 bg-gray-100">
-                  <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-full object-cover" />
-
-                </div>
-                <h3 className="font-serif text-xl text-navy mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-sage font-medium text-sm mb-2">
-                  {member.role}
-                </p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* Timeline Section */}
       <section className="py-20 bg-cream">

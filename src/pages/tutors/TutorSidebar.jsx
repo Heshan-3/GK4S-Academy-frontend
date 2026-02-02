@@ -49,7 +49,13 @@ export default function TutorSidebar({
           {/* Navigation */}
           <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
             <div>
-                <Link to="/tutor/requested-courses" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Approve Requests</Link>
+                <Link to="/tutor/requested-courses" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Requests</Link>
+            </div>
+            <div>
+              <Link to="/contact" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Cotact Us</Link>
+            </div>
+            <div>
+              <Link to="/Home" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Home</Link>
             </div>
           </nav>
 

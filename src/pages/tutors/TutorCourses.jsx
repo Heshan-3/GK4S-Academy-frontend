@@ -2,15 +2,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Users, Video, Star, BookOpen, TimerIcon, Timer } from "lucide-react"; // Using lucide-react for icons
+import AddMaterial from "./AddMaterial";
+
 
 export default function TutorCourses() {
     const [courses, setCourses] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [selectedCourseId, setSelectedCourseId] = useState(null);
+
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/contents/all`, {
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/contents/tutor-contents`, {
             headers: { Authorization: `Bearer ${token}` },
         }).then((response) => {
             setCourses(response.data);
@@ -72,6 +77,17 @@ export default function TutorCourses() {
                                         })}
                                     </span>
                                 </div>
+                                {/* 👉 ADD MATERIAL BUTTON */}
+                                <button
+                                    onClick={() => {
+                                        setSelectedCourseId(course._id);
+                                        setShowModal(true);
+                                    }}
+                                    className="ml-auto px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                                    >
+                                    + Add Material
+                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -81,6 +97,11 @@ export default function TutorCourses() {
                     <p className="text-gray-500 italic">No courses found.</p>
                 )}
             </div>
+            <AddMaterial
+                isOpen={showModal}
+                courseId={selectedCourseId}
+                onClose={() => setShowModal(false)}
+            />
         </div>
     );
 }

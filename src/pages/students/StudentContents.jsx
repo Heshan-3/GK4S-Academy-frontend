@@ -2,10 +2,12 @@ import axios from "axios";
 import { BookOpen, Timer, Video, CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import RequestAccess from "./RequestAccess"; // Ensure the path is correct
+import GetMaterials from "./GetMaterials";
 
 export default function StudentContents() {
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeCourse, setActiveCourse] = useState(null);
 
   // 1. Fetch all contents on mount
   useEffect(() => {
@@ -79,6 +81,17 @@ export default function StudentContents() {
                       {new Date(course.createdAt).toLocaleDateString()}
                     </span>
                   </div>
+                  <button 
+                      onClick={() => setActiveCourse(activeCourse === course._id ? null : course._id)}
+                      className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                    >
+                      {activeCourse === course._id ? "Hide Materials" : "View Materials"}
+                  </button>
+
+                    {/* Only show materials for the selected course */}
+                    {activeCourse === course._id && (
+                      <GetMaterials courseId={course._id} />
+                    )}
                 </div>
               </div>
             </div>
