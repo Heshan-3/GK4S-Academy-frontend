@@ -5,7 +5,7 @@ import RequestAccess from "../pages/students/RequestAccess";
 
 export default function CourseCard({ content }) {
   const [showReviews, setShowReviews] = useState(false);
-  
+
   if (!content) return null;
 
   const {
@@ -13,7 +13,7 @@ export default function CourseCard({ content }) {
     isPaid,
     title = "Untitled Course",
     tutor,
-    image,
+    image : rawImagePath,
     price = 0,
     description = "No description available.",
   } = content;
@@ -21,11 +21,23 @@ export default function CourseCard({ content }) {
   const author = tutor?.firstName || "Unknown Tutor";
   const displayPrice = price === 0 ? "Free" : `LKR ${price}`;
 
+  const rawBackendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+  const BACKEND_URL = rawBackendUrl.replace(/\/$/, "");
+
+  // 2. More reliable fallback image (placehold.co is often better than via.placeholder)
+  const fallback = "https://placehold.co/400x300?text=No+Image";
+
+  const finalImage = rawImagePath 
+    ? (rawImagePath.startsWith('http') 
+        ? rawImagePath 
+        : `${BACKEND_URL}/${rawImagePath.replace(/\\/g, '/')}`)
+    : fallback;
+    
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden flex flex-col h-full">
       {/* Image */}
       <img
-        src={image}
+        src={finalImage}
         alt={title}
         className="h-48 w-full object-cover"
       />

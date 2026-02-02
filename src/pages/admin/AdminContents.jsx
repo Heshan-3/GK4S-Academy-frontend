@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BookOpen, Timer, Video } from "lucide-react";
+import { BookOpen, Timer, Trash2, Video } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function AdminContents() {
@@ -23,6 +23,29 @@ export default function AdminContents() {
             });
         }
     }, [loading]);
+
+    const handleDelete = (id) => {
+        if (window.confirm("Are you sure you want to delete this course?")) {
+            const token = localStorage.getItem("token");
+
+            // Optimistic UI update: Remove from state immediately
+            setContents(contents.filter((content) => content._id !== id));
+
+            axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/contents/delete/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+                console.log("Deleted:", res.data);
+                // No need to setItemLoaded(false) unless you have that state defined elsewhere
+            })
+            .catch((err) => {
+                console.error(err);
+                alert("Failed to delete. Refreshing list.");
+                setLoading(true); // Trigger a re-fetch if delete fails
+            });
+        }
+    }
+
   return (
     <div className="p-8 max-w-5xl mx-auto">
             <h1 className="text-3xl font-bold text-[#1e3a5f] mb-8">All Courses</h1>
@@ -31,9 +54,21 @@ export default function AdminContents() {
                 {contents.map((course) => (
                     <div 
                         key={course._id}
-                        className="flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        className="relative flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         // onClick={() => navigate(`/course/${course._id}`)}
                     >
+
+                        <button 
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevents clicking the card background
+                                handleDelete(course._id);
+                            }}
+                            className="absolute top-3 right-3 p-2 bg-red-50 text-red-500 rounded-full opacity-100 group-hover:opacity-100 transition-opacity hover:bg-red-100 z-10"
+                            title="Delete Course"
+                            >
+                            <Trash2 size={18} />
+                        </button>
+
                         {/* Left: Icon/Image Placeholder */}
                         <div className="w-40 h-24 bg-blue-100 rounded-xl flex items-center justify-center text-blue-500 mr-6 shrink-0">
                             <BookOpen size={40} strokeWidth={1.5} />
@@ -74,6 +109,7 @@ export default function AdminContents() {
                                         year: 'numeric'
                                         })}
                                     </span>
+                                    
                                 </div>
                             </div>
                         </div>

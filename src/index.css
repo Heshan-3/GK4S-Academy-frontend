@@ -10,3 +10,7 @@
   --color-sage-dark: #7a8c6f;
   --color-cream: #f8f7f4;
 }
+
+* {
+  font-family: 'Poppins', sans-serif;
+}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Video, Star, BookOpen, TimerIcon, Timer } from "lucide-react"; // Using lucide-react for icons
+import { Users, Video, Star, BookOpen, TimerIcon, Timer, Trash2 } from "lucide-react"; // Using lucide-react for icons
 import AddMaterial from "./AddMaterial";
 
 
@@ -11,6 +11,8 @@ export default function TutorCourses() {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [selectedCourseId, setSelectedCourseId] = useState(null);
+    const [itemsLoaded, setItemsLoaded] = useState(true)
+    const [contents, setContents] = useState([]);
 
 
     useEffect(() => {
@@ -19,12 +21,34 @@ export default function TutorCourses() {
             headers: { Authorization: `Bearer ${token}` },
         }).then((response) => {
             setCourses(response.data);
-            setIsLoading(false);
+            setItemsLoaded(false);
         }).catch((error) => {
             console.error("Error fetching courses:", error);
             setIsLoading(false);
         });
-    }, []);
+    }, [itemsLoaded]);
+
+    const handleDelete = (id) => {
+        if (window.confirm("Are you sure you want to delete this course?")) {
+            const token = localStorage.getItem("token");
+
+            // Optimistic UI update: Remove from state immediately
+            setContents(contents.filter((content) => content._id !== id));
+
+            axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/contents/delete/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
+                console.log("Deleted:", res.data);
+                // No need to setItemLoaded(false) unless you have that state defined elsewhere
+            })
+            .catch((err) => {
+                console.error(err);
+                alert("Failed to delete. Refreshing list.");
+                setItemsLoaded(true); // Trigger a re-fetch if delete fails
+            });
+        }
+    }
 
     return (
         <div className="p-8 max-w-5xl mx-auto">
@@ -34,13 +58,24 @@ export default function TutorCourses() {
                 {courses.map((course) => (
                     <div 
                         key={course._id}
-                        className="flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        className="relative flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         // onClick={() => navigate(`/course/${course._id}`)}
                     >
                         {/* Left: Icon/Image Placeholder */}
                         <div className="w-40 h-24 bg-blue-100 rounded-xl flex items-center justify-center text-blue-500 mr-6 shrink-0">
                             <BookOpen size={40} strokeWidth={1.5} />
                         </div>
+
+                        <button 
+                            onClick={(e) => {
+                                e.stopPropagation(); // Prevents clicking the card background
+                                handleDelete(course._id);
+                            }}
+                            className="absolute top-3 right-3 p-2 bg-red-50 text-red-500 rounded-full opacity-100 group-hover:opacity-100 transition-opacity hover:bg-red-100 z-10"
+                            title="Delete Course"
+                            >
+                            <Trash2 size={18} />
+                        </button>
 
                         {/* Middle: Content */}
                         <div className="flex-grow">

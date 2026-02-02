@@ -1,143 +1,13 @@
 import { useEffect, useState } from 'react';
 import {
   SearchIcon,
-  FilterIcon,
-  ChevronDownIcon,
-  GridIcon,
-  ListIcon
 } from 'lucide-react';
 
 import CourseCard from '../components/CourseCard';
 import axios from 'axios';
 
-const allCourses = [
-  {
-    id: '1',
-    title: 'Introduction to Ancient Philosophy',
-    instructor: 'Dr. Sarah Chen',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop',
-    rating: 4.9,
-    students: 12450,
-    duration: '8 weeks',
-    price: 79,
-    category: 'Philosophy',
-    level: 'Beginner'
-  },
-  {
-    id: '2',
-    title: 'Data Science Fundamentals',
-    instructor: 'Prof. Michael Torres',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
-    rating: 4.8,
-    students: 28300,
-    duration: '12 weeks',
-    price: 129,
-    category: 'Data Science',
-    level: 'Intermediate'
-  },
-  {
-    id: '3',
-    title: 'Creative Writing Workshop',
-    instructor: 'Dr. Emily Watson',
-    image:
-      'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=400&fit=crop',
-    rating: 4.9,
-    students: 8920,
-    duration: '6 weeks',
-    price: 59,
-    category: 'Writing',
-    level: 'Beginner'
-  },
-  {
-    id: '4',
-    title: 'Art History: Renaissance to Modern',
-    instructor: 'Prof. James Mitchell',
-    image:
-      'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop',
-    rating: 4.7,
-    students: 6780,
-    duration: '10 weeks',
-    price: 89,
-    category: 'Art History',
-    level: 'Intermediate'
-  },
-  {
-    id: '5',
-    title: 'Modern Physics: Quantum Mechanics',
-    instructor: 'Dr. Robert Kim',
-    image:
-      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=400&fit=crop',
-    rating: 4.8,
-    students: 5420,
-    duration: '14 weeks',
-    price: 149,
-    category: 'Physics',
-    level: 'Advanced'
-  },
-  {
-    id: '6',
-    title: 'Full-Stack Web Development',
-    instructor: 'Alex Rivera',
-    image:
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&h=400&fit=crop',
-    rating: 4.9,
-    students: 34500,
-    duration: '16 weeks',
-    price: 199,
-    category: 'Technology',
-    level: 'Intermediate'
-  },
-  {
-    id: '7',
-    title: 'Business Strategy & Leadership',
-    instructor: 'Dr. Amanda Foster',
-    image:
-      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop',
-    rating: 4.7,
-    students: 15800,
-    duration: '8 weeks',
-    price: 119,
-    category: 'Business',
-    level: 'Intermediate'
-  },
-  {
-    id: '8',
-    title: 'Psychology 101: Understanding the Mind',
-    instructor: 'Dr. Lisa Park',
-    image:
-      'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=600&h=400&fit=crop',
-    rating: 4.8,
-    students: 22100,
-    duration: '10 weeks',
-    price: 89,
-    category: 'Psychology',
-    level: 'Beginner'
-  }
-];
-
-const categories = [
-  'All Categories',
-  'Philosophy',
-  'Data Science',
-  'Writing',
-  'Art History',
-  'Physics',
-  'Technology',
-  'Business',
-  'Psychology'
-];
-
-const levels = ['All Levels', 'Beginner', 'Intermediate', 'Advanced'];
-const durations = ['Any Duration', '1-4 weeks', '5-8 weeks', '9-12 weeks', '12+ weeks'];
-const priceRanges = ['Any Price', 'Free', 'Under $50', '$50-$100', '$100-$150', '$150+'];
-
 export default function Course() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [selectedLevel, setSelectedLevel] = useState('All Levels');
-  const [showFilters, setShowFilters] = useState(false);
 
   const [allCourses, setAllCourses] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -150,6 +20,15 @@ export default function Course() {
     })
     .catch((err) => console.error("Error loading courses:", err));
   }, [backendUrl]);
+
+  const filteredCourses = allCourses.filter((course) => {
+    // 1. Search filter (checks title and description)
+    const matchesSearch = 
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.description?.toLowerCase().includes(searchQuery.toLowerCase());
+
+      return matchesSearch
+  })
 
 
   return (
@@ -182,54 +61,13 @@ export default function Course() {
                 className="flex-1 px-3 py-3 text-gray-700 placeholder-gray-400 focus:outline-none"
               />
             </div>
-
-            {/* Filter Dropdowns */}
-            <div className="flex flex-wrap gap-3">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-sage/50"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-
-              <select
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value)}
-                className="px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-sage/50"
-              >
-                {levels.map((level) => (
-                  <option key={level} value={level}>{level}</option>
-                ))}
-              </select>
-
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="lg:hidden px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-700 flex items-center gap-2"
-              >
-                <FilterIcon className="h-4 w-4" />
-                More Filters
-              </button>
-            </div>
           </div>
 
           {/* Results Count */}
           <div className="mt-4 flex items-center justify-between">
             <p className="text-sm text-gray-600">
-              Showing <span className="font-medium">{allCourses.length}</span> courses
+              Showing <span className="font-medium">{filteredCourses.length}</span> courses
             </p>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <span>Sort by:</span>
-              <select className="bg-transparent font-medium text-navy focus:outline-none cursor-pointer">
-                <option>Most Popular</option>
-                <option>Highest Rated</option>
-                <option>Newest</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-              </select>
-            </div>
           </div>
         </div>
       </section>
@@ -238,7 +76,7 @@ export default function Course() {
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {allCourses.map((content) => (
+            {filteredCourses.map((content) => (
               <CourseCard key={content._id} content={content} />
             ))}
           </div>

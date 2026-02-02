@@ -55,8 +55,12 @@ export default function TutorSidebar({
               <Link to="/contact" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Cotact Us</Link>
             </div>
             <div>
-              <Link to="/Home" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Home</Link>
+              <Link to="/" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Home</Link>
             </div>
+            <div>
+              <Link to="/get-complaints" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Complaints</Link>
+            </div>
+
           </nav>
 
           {/* User / Logout */}

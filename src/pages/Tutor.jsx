@@ -13,18 +13,15 @@ export default function Tutor() {
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-        // Hit the new PUBLIC endpoint
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/tutors`);
         
         const formattedTutors = res.data.map(tutor => ({
           id: tutor._id,
           name: `${tutor.firstName} ${tutor.lastName}`,
-          title: "Expert Instructor", // You can add a 'title' field to your User model later
-          expertise: ["Education", "Academic"], // Static for now, or add to Model
-          image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
-          rating: 4.9,
-          students: 100, 
-          courses: 5,
+          title: "Expert Instructor",
+          expertise: ["Education", "Academic"], 
+          image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop', 
+          courses: tutor.courseCount,
           bio: `Professional instructor located in ${tutor.address}`,
         }));
         

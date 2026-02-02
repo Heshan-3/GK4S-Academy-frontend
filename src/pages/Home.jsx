@@ -45,6 +45,11 @@ export default function Home() {
   const [featuredCourses, setFeaturedCourses] = useState([]);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
+  const filteredCourses = featuredCourses.filter(course => 
+    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.instructor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     axios
       .get(`${backendUrl}/api/contents/featured`)
@@ -55,7 +60,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white">
 
       {/* Hero Section */}
       <section className="bg-navy py-20 lg:py-28">
@@ -82,12 +87,6 @@ export default function Home() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 px-3 py-4 text-gray-700 placeholder-gray-400 focus:outline-none"
                 />
-              </div>
-              <div className="hidden sm:flex items-center border-l border-gray-200">
-                <button className="flex items-center gap-2 px-4 py-4 text-gray-600 hover:text-gray-800">
-                  {selectedCategory}
-                  <ChevronDownIcon className="h-4 w-4" />
-                </button>
               </div>
               <button className="px-6 py-4 bg-sage text-white font-medium hover:bg-sage-dark transition-colors">
                 Search
@@ -148,7 +147,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredCourses.map((content) => (
+            {filteredCourses.map((content) => (
               <CourseCard key={content._id} content={content} />
             ))}
           </div>

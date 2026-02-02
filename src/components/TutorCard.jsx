@@ -6,7 +6,7 @@ export default function TutorCard({ name, title, expertise, image, rating, stude
 
   return (
     <Link
-      to="/instructors"
+      to="/tutors"
       className="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg hover:border-sage/30 transition-all duration-300 p-6"
     >
       {/* Profile Header */}
@@ -19,10 +19,6 @@ export default function TutorCard({ name, title, expertise, image, rating, stude
             {name}
           </h3>
           <p className="text-sm text-gray-600 mb-2">{title}</p>
-          <div className="flex items-center gap-1">
-            <StarIcon className="h-4 w-4 text-amber-400 fill-amber-400" />
-            <span className="text-sm font-medium text-gray-700">{rating.toFixed(1)}</span>
-          </div>
         </div>
       </div>
 
@@ -43,10 +39,6 @@ export default function TutorCard({ name, title, expertise, image, rating, stude
 
       {/* Stats */}
       <div className="flex items-center gap-6 pt-4 border-t border-gray-100 text-sm text-gray-500">
-        <span className="flex items-center gap-1.5">
-          <UsersIcon className="h-4 w-4" />
-          {students.toLocaleString()} students
-        </span>
         <span className="flex items-center gap-1.5">
           <BookOpenIcon className="h-4 w-4" />
           {courses} courses

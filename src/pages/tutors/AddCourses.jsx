@@ -8,27 +8,44 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [isPaid, setIsPaid] = useState(true);
+  const [imageFile, setImageFile] = useState(null);
 
   if (!isOpen) return null; // Don't render anything if not open
 
+  // Inside your handleAddCourse function
   async function handleAddCourse(e) {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-    if (!token) return;
+      e.preventDefault();
+      const token = localStorage.getItem("token");
 
-    try {
-      const result = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/contents/add`,
-        { title, videoLink, isPaid, price, description },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("videoLink", videoLink);
+      formData.append("isPaid", isPaid); 
+      formData.append("price", price);
+      formData.append("description", description);
+      
+      // This MUST match the string "image" in upload.single("image")
+      if (imageFile) {
+          formData.append("image", imageFile); 
+      }
 
-      console.log("Course added:", result.data);
-      refreshCourses(); // Refresh the list in the parent component
-      onClose(); // Close the modal on success
-    } catch (error) {
-      console.error("Error adding course:", error);
-    }
+      try {
+          await axios.post(
+              `${import.meta.env.VITE_BACKEND_URL}/api/contents/add`,
+              formData,
+              {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                      // Note: Do NOT set 'Content-Type' manually. 
+                      // Axios does it automatically for FormData with the correct boundary.
+                  },
+              }
+          );
+          refreshCourses();
+          onClose();
+      } catch (error) {
+          console.error("Upload Error:", error.response?.data || error.message);
+      }
   }
 
   return (
@@ -67,6 +84,17 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
               value={videoLink}
               onChange={(e) => setVideoLink(e.target.value)}
               className="w-full rounded-xl border border-gray-300 px-4 py-2.5 focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Course Thumbnail Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              required
+              onChange={(e) => setImageFile(e.target.files[0])}
+              className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f] file:text-white hover:file:bg-[#163050]"
             />
           </div>
 
