@@ -1,73 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { X } from "lucide-react"; // Make sure to install lucide-react
-import toast from "react-hot-toast";
+import { X } from "lucide-react";
 
-export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
+export default function UpdateCourseModal({ isOpen, onClose, refreshCourses, course }) {
   const [title, setTitle] = useState("");
   const [videoLink, setVideoLink] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [isPaid, setIsPaid] = useState(true);
   const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  if (!isOpen) return null; // Don't render anything if not open
+  // Populate form when 'course' prop changes or modal opens
+  useEffect(() => {
+    if (course && isOpen) {
+      setTitle(course.title || "");
+      setVideoLink(course.videoLink || "");
+      setPrice(course.price || "");
+      setDescription(course.description || "");
+      setIsPaid(course.isPaid ?? true);
+    }
+  }, [course, isOpen]);
 
-  // Inside your handleAddCourse function
-  async function handleAddCourse(e) {
-      e.preventDefault();
-      const token = localStorage.getItem("token");
+  if (!isOpen) return null;
 
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("videoLink", videoLink);
-      formData.append("isPaid", isPaid); 
-      formData.append("price", price);
-      formData.append("description", description);
-      
-      // This MUST match the string "image" in upload.single("image")
-      if (imageFile) {
-          formData.append("image", imageFile); 
-      }
+  async function handleUpdateCourse(e) {
+    e.preventDefault();
+    setLoading(true);
+    const token = localStorage.getItem("token");
 
-      try {
-          await axios.post(
-              `${import.meta.env.VITE_BACKEND_URL}/api/contents/add`,
-              formData,
-              {
-                  headers: {
-                      Authorization: `Bearer ${token}`,
-                      // Note: Do NOT set 'Content-Type' manually. 
-                      // Axios does it automatically for FormData with the correct boundary.
-                  },
-              }
-          );
-          toast.success("Course added successfully")
-          refreshCourses();
-          onClose();
-      } catch (error) {
-          console.error("Upload Error:", error.response?.data || error.message);
-          toast.error("Upload error")
-      }
+    // We use FormData because we might be uploading a new image
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("videoLink", videoLink);
+    formData.append("isPaid", isPaid);
+    formData.append("price", price);
+    formData.append("description", description);
+    
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/contents/update/${course._id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Content-Type is handled automatically by Axios for FormData
+          },
+        }
+      );
+      refreshCourses(); // Refresh the list in the parent component
+      onClose();        // Close modal
+    } catch (error) {
+      console.error("Update Error:", error.response?.data || error.message);
+      alert(error.response?.data?.error || "Failed to update course");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-50 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
         
         {/* Header */}
         <div className="sticky top-0 bg-white px-8 py-6 border-b flex justify-between items-center z-10">
-          <h1 className="text-2xl font-bold text-[#1e3a5f]">Add New Course</h1>
-          <button 
-            onClick={onClose} 
-            className="p-2 hover:bg-gray-100 rounded-full transition"
-          >
+          <h1 className="text-2xl font-bold text-[#1e3a5f]">Update Course</h1>
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition">
             <X size={24} className="text-gray-500" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleAddCourse} className="p-8 space-y-5">
+        <form onSubmit={handleUpdateCourse} className="p-8 space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Course Title</label>
             <input
@@ -91,11 +99,12 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Course Thumbnail Image</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Update Thumbnail (Leave blank to keep current)
+            </label>
             <input
               type="file"
               accept="image/*"
-              required
               onChange={(e) => setImageFile(e.target.files[0])}
               className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f] file:text-white hover:file:bg-[#163050]"
             />
@@ -143,9 +152,10 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
             </button>
             <button
               type="submit"
-              className="flex-[2] bg-[#1e3a5f] text-white py-3 rounded-xl font-semibold hover:bg-[#163050] transition shadow-lg shadow-blue-900/20"
+              disabled={loading}
+              className="flex-[2] bg-[#1e3a5f] text-white py-3 rounded-xl font-semibold hover:bg-[#163050] transition shadow-lg disabled:opacity-50"
             >
-              Create Course
+              {loading ? "Updating..." : "Update Course"}
             </button>
           </div>
         </form>

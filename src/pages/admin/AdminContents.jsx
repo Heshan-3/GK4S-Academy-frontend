@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BookOpen, Timer, Trash2, Video } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AdminContents() {
     const [contents, setContents] = useState([]);
@@ -20,6 +21,7 @@ export default function AdminContents() {
             .catch(err => {
                 console.error("Error fetching contents", err);
                 setLoading(false);
+                
             });
         }
     }, [loading]);
@@ -34,12 +36,11 @@ export default function AdminContents() {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
-                console.log("Deleted:", res.data);
-            
+                toast.success(res.data.message)
             })
             .catch((err) => {
                 console.error(err);
-                alert("Failed to delete. Refreshing list.");
+                toast.error("Fail to Delete Content")
                 setLoading(true); 
             });
         }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function RequestAccess({ contentId, isPaid, initialStatus }) {
   const [loading, setLoading] = useState(false);
@@ -22,14 +23,14 @@ export default function RequestAccess({ contentId, isPaid, initialStatus }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setStatus('pending');
-      alert("Request sent!");
+      toast.success("Request send")
     } catch (err) {
       // If 400, it means it's already pending in the DB
       if (err.response?.status === 400) {
         setStatus('pending');
-        alert("You have already requested this course.");
+        toast.error("You have already requested this course.")
       } else {
-        alert("Error: " + (err.response?.data?.message || "Something went wrong"));
+        toast.error("Something went wrong")
       }
     } finally {
       setLoading(false);

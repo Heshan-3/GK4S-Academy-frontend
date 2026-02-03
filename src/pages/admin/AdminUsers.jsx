@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Trash2, UserCheck, UserX } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function AdminUsers() {
     const [users, setUsers] = useState([]);
@@ -36,12 +37,12 @@ export default function AdminUsers() {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
-                console.log("Deleted:", res.data);
+                toast.success(res.data.message)
                 setLoading(false)
             })
             .catch((err) => {
                 console.error(err);
-                alert("Failed to delete. Refreshing list.");
+                toast.success("Error deleting this user")
                 setLoading(true); 
             });
         }

@@ -51,11 +51,103 @@ export default function AdminSidebar({
           {/* Navigation */}
           <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
             <div>
-                <Link to="/admin/users" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Users</Link>
+                <Link 
+                  to="/admin/users" 
+                  className="group flex items-center px-4 py-3 text-gray-400 font-medium transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-[#2d4b75] hover:to-[#1e3a5f] hover:text-white hover:shadow-lg hover:shadow-blue-900/20 active:scale-95"
+                >
+                  {/* Icon Container */}
+                  <div className="mr-3 p-2 rounded-lg bg-gray-800 transition-colors group-hover:bg-[#3d5e8c]">
+                    <svg 
+                      className="w-5 h-5 text-gray-400 group-hover:text-white" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+
+                  {/* Label */}
+                  <span className="tracking-wide">Users</span>
+
+                  {/* Hover Indicator */}
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400 scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_8px_#60a5fa]"></div>
+                </Link>
             </div>
             <div>
-                <Link to="/admin/contents" className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-[#2d4b75] rounded-lg">Contents</Link>
-            </div>
+                <Link 
+                  to="/admin/contents" 
+                  className="group flex items-center px-4 py-3 text-gray-400 font-medium transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-[#2d4b75] hover:to-[#1e3a5f] hover:text-white hover:shadow-lg hover:shadow-blue-900/20 active:scale-95"
+                >
+                  {/* Icon Container */}
+                  <div className="mr-3 p-2 rounded-lg bg-gray-800 transition-colors group-hover:bg-[#3d5e8c]">
+                    <svg 
+                      className="w-5 h-5 text-gray-400 group-hover:text-white" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+
+                  {/* Label */}
+                  <span className="tracking-wide">Contents</span>
+
+                  {/* Hover Indicator */}
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400 scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_8px_#60a5fa]"></div>
+                </Link>
+              </div>
+
+              <div>
+                <Link 
+                  to="/admin/" 
+                  className="group flex items-center px-4 py-3 text-gray-400 font-medium transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-[#2d4b75] hover:to-[#1e3a5f] hover:text-white hover:shadow-lg hover:shadow-blue-900/20 active:scale-95"
+                >
+                  {/* Icon Container */}
+                  <div className="mr-3 p-2 rounded-lg bg-gray-800 transition-colors group-hover:bg-[#3d5e8c]">
+                    <svg 
+                      className="w-5 h-5 text-gray-400 group-hover:text-white" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+
+                  {/* Label */}
+                  <span className="tracking-wide">Dashboard</span>
+
+                  {/* Hover Indicator */}
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400 scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_8px_#60a5fa]"></div>
+                </Link>
+              </div>
+
+              <div>
+                <Link 
+                  to="/" 
+                  className="group flex items-center px-4 py-3 text-gray-400 font-medium transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-[#2d4b75] hover:to-[#1e3a5f] hover:text-white hover:shadow-lg hover:shadow-blue-900/20 active:scale-95"
+                >
+                  {/* Icon Container */}
+                  <div className="mr-3 p-2 rounded-lg bg-gray-800 transition-colors group-hover:bg-[#3d5e8c]">
+                    <svg 
+                      className="w-5 h-5 text-gray-400 group-hover:text-white" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+
+                  {/* Label */}
+                  <span className="tracking-wide">Home</span>
+
+                  {/* Hover Indicator */}
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-400 scale-0 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_8px_#60a5fa]"></div>
+                </Link>
+              </div>
           </nav>
 
           {/* User / Logout */}

@@ -11,20 +11,17 @@ import TutorSidebar from "./TutorSidebar";
 import TutorCourses from "./TutorCourses";
 import axios from "axios";
 import Messages from "../../components/Messages";
-import AddCourseModal from "./AddCourses"; // Your Modal component
+import AddCourseModal from "./AddCourses";
 
 export default function TutorDashboard() {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeTab, setActiveTab] = useState("dashboard"); 
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0); // For reloading courses
+  const [refreshKey, setRefreshKey] = useState(0);
   
   const [stats, setStats] = useState({
-    students: 0,
     courses: 0,
-    rating: 0,
-    reviews: 0,
   });
 
   // Function to trigger course list refresh
@@ -94,10 +91,7 @@ export default function TutorDashboard() {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {[
-                { label: "Students", value: stats.students, icon: Users, color: "text-blue-600" },
                 { label: "Courses", value: stats.courses, icon: BookOpen, color: "text-indigo-600" },
-                { label: "Rating", value: `${stats.rating}/5`, icon: Star, color: "text-yellow-500" },
-                { label: "Reviews", value: stats.reviews, icon: MessageSquare, color: "text-teal-600" },
               ].map((item, i) => (
                 <div key={i} className="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition-shadow">
                   <div className="flex justify-between items-center mb-3">

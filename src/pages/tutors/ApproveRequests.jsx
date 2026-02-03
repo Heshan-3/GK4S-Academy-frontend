@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function ApproveRequests() {
   const [requests, setRequests] = useState([]);
@@ -24,6 +25,7 @@ export default function ApproveRequests() {
       setRequests(response.data.requests || []);
     } catch (error) {
       console.error("Error fetching requests:", error);
+      toast.error("Error fetching requests")
     } finally {
       setLoading(false);
     }
@@ -41,11 +43,11 @@ export default function ApproveRequests() {
           },
         }
       );
-      alert(`Request ${status} successfully`);
+      toast.success(`Request ${status} successfully`);
       fetchRequests(); // Refresh list
     } catch (error) {
       console.error(`Error updating request:`, error);
-      alert("Action failed. Check console for details.");
+      toast.success("Action failed. Check console for details.");
     }
   };
 

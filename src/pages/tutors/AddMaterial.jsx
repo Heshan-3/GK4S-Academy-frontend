@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { X, Upload } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function AddMaterial({ isOpen, onClose, courseId}) {
   const [title, setTitle] = useState("");
@@ -33,12 +34,12 @@ export default function AddMaterial({ isOpen, onClose, courseId}) {
     );
 
 
-      alert("Material added successfully!");
+      toast.success("Material added successfully!");
       onClose();
       setTitle("");
       setFile(null);
     } catch (err) {
-      alert("Upload failed");
+      toast.error("Upload failed");
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Video, Star, BookOpen, TimerIcon, Timer, Trash2 } from "lucide-react"; // Using lucide-react for icons
+import { Users, Video, Star, BookOpen, TimerIcon, Timer, Trash2, Pencil } from "lucide-react"; // Using lucide-react for icons
 import AddMaterial from "./AddMaterial";
+import UpdateCourseModal from "../UpdateCourse";
+import toast from "react-hot-toast";
 
 
 export default function TutorCourses() {
@@ -13,6 +15,8 @@ export default function TutorCourses() {
     const [selectedCourseId, setSelectedCourseId] = useState(null);
     const [itemsLoaded, setItemsLoaded] = useState(true)
     const [contents, setContents] = useState([]);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [courseToEdit, setCourseToEdit] = useState(null);
 
 
     useEffect(() => {
@@ -40,15 +44,21 @@ export default function TutorCourses() {
             })
             .then((res) => {
                 console.log("Deleted:", res.data);
-                // No need to setItemLoaded(false) unless you have that state defined elsewhere
+                toast.success("Deleted successfully")
             })
             .catch((err) => {
                 console.error(err);
-                alert("Failed to delete. Refreshing list.");
+                toast.error("Failed to delete. Refreshing list.");
                 setItemsLoaded(true); // Trigger a re-fetch if delete fails
             });
         }
     }
+
+    const handleEditClick = (e, course) => {
+        e.stopPropagation(); // Stop navigation if card is clickable
+        setCourseToEdit(course);
+        setShowEditModal(true);
+    };
 
     return (
         <div className="p-8 max-w-5xl mx-auto">
@@ -65,6 +75,14 @@ export default function TutorCourses() {
                         <div className="w-40 h-24 bg-blue-100 rounded-xl flex items-center justify-center text-blue-500 mr-6 shrink-0">
                             <BookOpen size={40} strokeWidth={1.5} />
                         </div>
+
+                        <button 
+                                onClick={(e) => handleEditClick(e, course)}
+                                className="absolute top-3 right-15 p-2 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors"
+                                title="Edit Course"
+                            >
+                                <Pencil size={18} />
+                        </button>
 
                         <button 
                             onClick={(e) => {
@@ -132,6 +150,13 @@ export default function TutorCourses() {
                     <p className="text-gray-500 italic">No courses found.</p>
                 )}
             </div>
+            {/* UPDATE COURSE MODAL */}
+            <UpdateCourseModal 
+                isOpen={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                refreshCourses={() => setItemsLoaded(true)}
+                course={courseToEdit}
+            />
             <AddMaterial
                 isOpen={showModal}
                 courseId={selectedCourseId}

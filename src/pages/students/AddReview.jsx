@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Star, X } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function ReviewModal({ isOpen, onClose, contentId, courseTitle }) {
   const [rating, setRating] = useState(0);
@@ -22,10 +23,10 @@ export default function ReviewModal({ isOpen, onClose, contentId, courseTitle })
         { contentId, rating, comment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Review submitted successfully!");
+      toast.success("Review added Successfully")
       onClose();
     } catch (error) {
-      alert(error.response?.data?.error || "Failed to submit review");
+      toast.error("Failed to added review")
     } finally {
       setIsSubmitting(false);
     }
