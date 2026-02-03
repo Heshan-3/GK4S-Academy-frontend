@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Mail, Lock, Eye } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -30,7 +31,7 @@ export default function Login() {
       })
       .catch((err) => {
         console.error(err);
-        alert("Invalid email or password");
+        toast.error(err.response?.data?.error || "Login failed");
       });
   };
 

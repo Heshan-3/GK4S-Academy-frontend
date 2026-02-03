@@ -9,11 +9,14 @@ import {
   MessageSquare,
   AlertCircle
 } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export default function GetComplaints() {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchComplaints();
@@ -42,7 +45,7 @@ export default function GetComplaints() {
       );
       fetchComplaints(); // Refresh list
     } catch (err) {
-      alert("Only admins can update status");
+      toast.error("Only admins can update status");
     }
   };
 
@@ -53,9 +56,10 @@ export default function GetComplaints() {
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/complaints/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      toast.success("Complaint deleted successfully")
       setComplaints(complaints.filter(c => c._id !== id));
     } catch (err) {
-      alert("Only admins can delete complaints");
+      toast.error("Only admins can delete complaints");
     }
   };
 

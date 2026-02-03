@@ -7,7 +7,6 @@ import StudentContents from "./StudentContents";
 
 export default function StudentDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [userValidated, setUserValidated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -50,42 +49,14 @@ export default function StudentDashboard() {
       currentUser={currentUser}
         activePage={activePage}
         onNavigate={setActivePage}
-        isMobileOpen={mobileOpen}
-        onCloseMobile={() => setMobileOpen(false)}
       />
 
       {/* Main content */}
       <main className="flex-1 lg:ml-64 p-6">
-        {/* Mobile menu */}
-        {/* <button
-          className="lg:hidden mb-4 px-4 py-2 bg-[#1e3a5f] text-white rounded"
-          onClick={() => setMobileOpen(true)}
-        >
-          Open Menu
-        </button>
-
-        {activePage === "dashboard" && (
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        )}
-
-        {activePage === "students" && (
-          <h1 className="text-2xl font-bold">My Students</h1>
-        )}
-
-        {activePage === "schedule" && (
-          <h1 className="text-2xl font-bold">Schedule</h1>
-        )}
-
-        {activePage === "courses" && (
-          <h1 className="text-2xl font-bold">Course Content</h1>
-        )}
-
-        {activePage === "earnings" && (
-          <h1 className="text-2xl font-bold">Earnings</h1>
-        )} */}
+        
         <div>
             <Routes>
-                <Route path="contents" element={<StudentContents/>}></Route>
+                <Route path="/" element={<StudentContents/>}></Route>
             </Routes>
         </div>
       </main>

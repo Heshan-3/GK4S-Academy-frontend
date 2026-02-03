@@ -48,6 +48,36 @@ export default function AdminUsers() {
         }
     }
 
+   async function handleToggleBlock(email) {
+    const token = localStorage.getItem("token");
+    
+        const previousUsers = [...users];
+
+        setUsers(prevUsers => 
+            prevUsers.map(user => 
+                user.email === email 
+                    ? { ...user, isBlocked: !user.isBlocked } 
+                    : user
+            )
+        );
+
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api/users/block/${email}`, 
+                {}, 
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            
+            toast.success(res.data.message || "Status updated");
+        } catch (err) {
+            console.error("Failed to toggle block status:", err);
+            toast.error("Action failed. Reverting changes...");
+            
+            // 3. Roll back to the original state if the API fails
+            setUsers(previousUsers);
+        }
+    }
+
     return (
         <div className="p-8 bg-gray-50 min-h-screen">
             <div className="max-w-7xl mx-auto">
@@ -107,15 +137,28 @@ export default function AdminUsers() {
 
                                             {/* Access Toggle Visual */}
                                             <td className="px-6 py-4 text-center">
-                                                {user.gotAccess ? (
-                                                    <span className="inline-flex items-center text-green-600 text-sm font-medium">
-                                                        <UserCheck className="w-4 h-4 mr-1" /> Granted
-                                                    </span>
-                                                ) : (
-                                                    <span className="inline-flex items-center text-gray-400 text-sm font-medium">
-                                                        <UserX className="w-4 h-4 mr-1" /> Pending
-                                                    </span>
-                                                )}
+                                                <button
+                                                    onClick={() => handleToggleBlock(user.email)}
+                                                    disabled={loading} // Prevent double-clicks during request
+                                                    className={`inline-flex items-center px-3 py-1 rounded-full transition-all duration-200 
+                                                        ${user.isBlocked 
+                                                            ? "bg-red-50 text-red-600 hover:bg-red-100" 
+                                                            : "bg-green-50 text-green-600 hover:bg-green-100"
+                                                        }`}
+                                                    title={user.isBlocked ? "Click to Unblock" : "Click to Block"}
+                                                >
+                                                    {user.isBlocked ? (
+                                                        <>
+                                                            <UserX className="w-4 h-4 mr-1.5" />
+                                                            <span className="text-sm font-semibold">Blocked</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <UserCheck className="w-4 h-4 mr-1.5" />
+                                                            <span className="text-sm font-semibold">Active</span>
+                                                        </>
+                                                    )}
+                                                </button>
                                             </td>
 
                                             {/* Blocked Status Badge */}
