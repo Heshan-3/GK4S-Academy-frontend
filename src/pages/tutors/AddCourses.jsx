@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { X } from "lucide-react"; // Make sure to install lucide-react
+import { X } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
@@ -11,9 +11,8 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
   const [isPaid, setIsPaid] = useState(true);
   const [imageFile, setImageFile] = useState(null);
 
-  if (!isOpen) return null; // Don't render anything if not open
+  if (!isOpen) return null;
 
-  // Inside your handleAddCourse function
   async function handleAddCourse(e) {
       e.preventDefault();
       const token = localStorage.getItem("token");
@@ -25,7 +24,6 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
       formData.append("price", price);
       formData.append("description", description);
       
-      // This MUST match the string "image" in upload.single("image")
       if (imageFile) {
           formData.append("image", imageFile); 
       }
@@ -37,8 +35,6 @@ export default function AddCourseModal({ isOpen, onClose, refreshCourses }) {
               {
                   headers: {
                       Authorization: `Bearer ${token}`,
-                      // Note: Do NOT set 'Content-Type' manually. 
-                      // Axios does it automatically for FormData with the correct boundary.
                   },
               }
           );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { X } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function UpdateCourseModal({ isOpen, onClose, refreshCourses, course }) {
   const [title, setTitle] = useState("");
@@ -48,15 +49,15 @@ export default function UpdateCourseModal({ isOpen, onClose, refreshCourses, cou
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            // Content-Type is handled automatically by Axios for FormData
           },
         }
       );
       refreshCourses(); // Refresh the list in the parent component
-      onClose();        // Close modal
+      onClose();
+      toast.success("Course is updated successfully")
     } catch (error) {
       console.error("Update Error:", error.response?.data || error.message);
-      alert(error.response?.data?.error || "Failed to update course");
+      toast.error("Failed to update course");
     } finally {
       setLoading(false);
     }

@@ -56,49 +56,6 @@ const stats = [
   label: 'Countries Reached'
 }];
 
-const team = [
-{
-  name: 'Dr. Eleanor Hayes',
-  role: 'Founder & CEO',
-  image:
-  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop',
-  bio: 'Former Stanford professor with a vision to democratize quality education.'
-},
-{
-  name: 'Marcus Chen',
-  role: 'Chief Technology Officer',
-  image:
-  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop',
-  bio: 'Tech veteran who led engineering teams at Google and Coursera.'
-},
-{
-  name: 'Dr. Amara Johnson',
-  role: 'Chief Academic Officer',
-  image:
-  'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=300&fit=crop',
-  bio: 'Educational psychologist dedicated to evidence-based learning design.'
-},
-{
-  name: 'David Park',
-  role: 'Chief Operating Officer',
-  image:
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop',
-  bio: 'Operations expert who scaled multiple EdTech startups.'
-},
-{
-  name: 'Sofia Martinez',
-  role: 'VP of Content',
-  image:
-  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop',
-  bio: 'Award-winning curriculum designer and former BBC documentary producer.'
-},
-{
-  name: 'James Wilson',
-  role: 'VP of Community',
-  image:
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop',
-  bio: 'Community builder who grew online learning communities to millions.'
-}];
 
 const milestones = [
   {

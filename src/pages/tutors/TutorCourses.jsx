@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, Video, Star, BookOpen, TimerIcon, Timer, Trash2, Pencil } from "lucide-react"; // Using lucide-react for icons
+import { Users, Video, Star, BookOpen, TimerIcon, Timer, Trash2, Pencil } from "lucide-react";
 import AddMaterial from "./AddMaterial";
 import UpdateCourseModal from "../UpdateCourse";
 import toast from "react-hot-toast";
@@ -36,7 +36,6 @@ export default function TutorCourses() {
         if (window.confirm("Are you sure you want to delete this course?")) {
             const token = localStorage.getItem("token");
 
-            // Optimistic UI update: Remove from state immediately
             setContents(contents.filter((content) => content._id !== id));
 
             axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/contents/delete/${id}`, {
@@ -49,13 +48,13 @@ export default function TutorCourses() {
             .catch((err) => {
                 console.error(err);
                 toast.error("Failed to delete. Refreshing list.");
-                setItemsLoaded(true); // Trigger a re-fetch if delete fails
+                setItemsLoaded(true);
             });
         }
     }
 
     const handleEditClick = (e, course) => {
-        e.stopPropagation(); // Stop navigation if card is clickable
+        e.stopPropagation();
         setCourseToEdit(course);
         setShowEditModal(true);
     };
@@ -69,7 +68,6 @@ export default function TutorCourses() {
                     <div 
                         key={course._id}
                         className="relative flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        // onClick={() => navigate(`/course/${course._id}`)}
                     >
                         {/* Left: Icon/Image Placeholder */}
                         <div className="w-40 h-24 bg-blue-100 rounded-xl flex items-center justify-center text-blue-500 mr-6 shrink-0">
@@ -86,7 +84,7 @@ export default function TutorCourses() {
 
                         <button 
                             onClick={(e) => {
-                                e.stopPropagation(); // Prevents clicking the card background
+                                e.stopPropagation();
                                 handleDelete(course._id);
                             }}
                             className="absolute top-3 right-3 p-2 bg-red-50 text-red-500 rounded-full opacity-100 group-hover:opacity-100 transition-opacity hover:bg-red-100 z-10"

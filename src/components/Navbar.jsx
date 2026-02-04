@@ -17,10 +17,10 @@ export default function Navbar() {
   }, []);
 
   const handleSignOut = () => {
-    localStorage.removeItem("token"); // Clear the token
-    localStorage.removeItem("user");  // Clear user info if stored
+    localStorage.removeItem("token");
+    localStorage.removeItem("user"); 
     setIsLoggedIn(false);
-    navigate("/login"); // Redirect to login page
+    navigate("/login"); 
   };
 
   const getDashboardPath = () => {

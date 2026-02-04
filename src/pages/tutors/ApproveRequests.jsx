@@ -33,7 +33,6 @@ export default function ApproveRequests() {
 
   const handleAction = async (requestId, status) => {
     try {
-      // Using your handleRequestStatus logic: status is 'approved' or 'rejected'
       await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/requests/approve/${requestId}`,
         { status },

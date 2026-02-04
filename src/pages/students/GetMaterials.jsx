@@ -8,7 +8,7 @@ export default function GetMaterials({ courseId }) {
 
   // inside GetReview.jsx
 useEffect(() => {
-  // 🛑 STOP: Only fetch if the student actually clicked the button
+  // STOP: Only fetch if the student actually clicked the button
   if (!isOpen || !contentId) return;
 
   const fetchReviews = async () => {

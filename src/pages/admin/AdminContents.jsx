@@ -55,12 +55,11 @@ export default function AdminContents() {
                     <div 
                         key={course._id}
                         className="relative flex items-center p-5 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                        // onClick={() => navigate(`/course/${course._id}`)}
                     >
 
                         <button 
                             onClick={(e) => {
-                                e.stopPropagation(); // Prevents clicking the card background
+                                e.stopPropagation(); 
                                 handleDelete(course._id);
                             }}
                             className="absolute top-3 right-3 p-2 bg-red-50 text-red-500 rounded-full opacity-100 group-hover:opacity-100 transition-opacity hover:bg-red-100 z-10"

@@ -169,10 +169,10 @@ export default function Home() {
       <section className="py-20 bg-navy">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-3xl md:text-4xl text-white mb-4">
-            Begin Your Learning Journey Today
+            Begin Your GK4S Academy Journey Today
           </h2>
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join over 850,000 learners who have transformed their careers and expanded their horizons with Learnify.
+            Join over 850,000 learners who have transformed their careers and expanded their horizons with GK4S Academy.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

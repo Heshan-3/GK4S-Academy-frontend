@@ -122,7 +122,7 @@ export default function TutorDashboard() {
               </div>
               
               <div className="grid grid-cols-1 gap-6">
-                {/* We pass refreshKey to force the component to update when it changes */}
+                {/*pass refreshKey to force the component to update when it changes */}
                 <TutorCourses key={refreshKey} onMessageStudent={handleOpenChat} />
               </div>
             </div>

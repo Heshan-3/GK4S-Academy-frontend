@@ -23,7 +23,6 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [apiError, setApiError] = useState('');
 
-  // 1. Fetch Tutors and handle the specific firstName/lastName structure
   useEffect(() => {
     const fetchTutors = async () => {
       try {
@@ -66,7 +65,7 @@ export default function Contact() {
       description: formData.message
     };
 
-    console.log("Submitting payload:", payload); // Debug: Check this in console
+    console.log("Submitting payload:", payload);
 
     try {
       const token = localStorage.getItem("token"); 
@@ -82,7 +81,6 @@ export default function Contact() {
       setIsSubmitted(true);
     } catch (err) {
       setIsSubmitting(false);
-      // Catching the 500 error message from your backend
       setApiError(err.response?.data?.message || err.response?.data?.error || "Server Error (500). Please check backend logs.");
       console.error("Submission Error:", err.response?.data);
     }
