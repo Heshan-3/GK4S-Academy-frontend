@@ -5,21 +5,19 @@ import {
 
 import CourseCard from '../components/CourseCard';
 import axios from 'axios';
+import AxiosInstance from '../utils/AxiosInstance';
 
 export default function Course() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [allCourses, setAllCourses] = useState([]);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
   axios
-    .get(`${backendUrl}/api/contents/featured`) // 🔥 Change this from 'public' to 'featured'
-    .then((res) => {
-      setAllCourses(res.data);
-    })
-    .catch((err) => console.error("Error loading courses:", err));
-  }, [backendUrl]);
+    AxiosInstance.get("/api/contents/featured")
+  .then((res) => setAllCourses(res.data))
+  .catch((err) => console.error("Error loading courses:", err));;
+  }, []);
 
   const filteredCourses = allCourses.filter((course) => {
     // 1. Search filter (checks title and description)
