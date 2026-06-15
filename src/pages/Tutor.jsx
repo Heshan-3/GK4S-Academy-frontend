@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { SearchIcon } from 'lucide-react';
 import TutorCard from '../components/TutorCard';
-import axiosInstance from '../utils/axiosInstance';
 
 export default function Tutor() {
   const [instructors, setInstructors] = useState([]);
@@ -14,7 +13,7 @@ export default function Tutor() {
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-        const res = await axiosInstance.get("/api/users/tutors");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/tutors`);
         
         const formattedTutors = res.data.map(tutor => ({
           id: tutor._id,
