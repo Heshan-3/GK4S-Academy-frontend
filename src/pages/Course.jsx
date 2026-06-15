@@ -9,7 +9,6 @@ import axiosInstance from '../utils/axiosInstance.js';
 
 export default function Course() {
   const [searchQuery, setSearchQuery] = useState('');
-
   const [allCourses, setAllCourses] = useState([]);
 
   useEffect(() => {

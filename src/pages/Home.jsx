@@ -47,7 +47,7 @@ export default function Home() {
         setFeaturedCourses(res.data);
       })
       .catch((err) => console.error(err));
-  }, [backendUrl]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
