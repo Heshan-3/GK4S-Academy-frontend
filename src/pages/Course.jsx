@@ -12,7 +12,7 @@ export default function Course() {
   const [allCourses, setAllCourses] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get("/api/contents/public") // ✅ removed the stray "axios" line
+    axiosInstance.get("/api/contents/all") // ✅ removed the stray "axios" line
       .then((res) => setAllCourses(res.data))
       .catch((err) => console.error("Error loading courses:", err));
   }, []);
