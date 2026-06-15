@@ -5,7 +5,7 @@ import {
 
 import CourseCard from '../components/CourseCard';
 import axios from 'axios';
-import AxiosInstance from '../utils/AxiosInstance';
+import axiosInstance from '../utils/axiosInstance';
 
 export default function Course() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,7 +14,7 @@ export default function Course() {
 
   useEffect(() => {
   axios
-    AxiosInstance.get("/api/contents/featured")
+    axiosInstance.get("/api/contents/featured")
   .then((res) => setAllCourses(res.data))
   .catch((err) => console.error("Error loading courses:", err));;
   }, []);
