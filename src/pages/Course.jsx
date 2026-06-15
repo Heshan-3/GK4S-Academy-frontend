@@ -13,10 +13,9 @@ export default function Course() {
   const [allCourses, setAllCourses] = useState([]);
 
   useEffect(() => {
-  axios
-    axiosInstance.get("/api/contents/featured")
-  .then((res) => setAllCourses(res.data))
-  .catch((err) => console.error("Error loading courses:", err));;
+    axiosInstance.get("/api/contents/featured") // ✅ removed the stray "axios" line
+      .then((res) => setAllCourses(res.data))
+      .catch((err) => console.error("Error loading courses:", err));
   }, []);
 
   const filteredCourses = allCourses.filter((course) => {
