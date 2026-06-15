@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import CourseCard from '../components/CourseCard';
 import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 
 const stats = [
   { icon: BookOpenIcon, label: 'Expert-Led Courses' },
@@ -32,8 +33,6 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [featuredCourses, setFeaturedCourses] = useState([]);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
   const filteredCourses = featuredCourses.filter(course =>
     course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.instructor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -43,8 +42,7 @@ export default function Home() {
   const displayedCourses = filteredCourses.slice(0, 4);
 
   useEffect(() => {
-    axios
-      .get(`${backendUrl}/api/contents/featured`)
+    axiosInstance.get("api/contents/featured")
       .then((res) => {
         setFeaturedCourses(res.data);
       })
