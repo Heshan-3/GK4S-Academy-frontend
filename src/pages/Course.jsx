@@ -5,17 +5,21 @@ import {
 
 import CourseCard from '../components/CourseCard';
 import axios from 'axios';
-import axiosInstance from '../utils/axiosInstance.js';
 
 export default function Course() {
   const [searchQuery, setSearchQuery] = useState('');
+
   const [allCourses, setAllCourses] = useState([]);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
-    axiosInstance.get("/api/contents/all") // ✅ removed the stray "axios" line
-      .then((res) => setAllCourses(res.data))
-      .catch((err) => console.error("Error loading courses:", err));
-  }, []);
+  axios
+    .get(`${backendUrl}/api/contents/browse`) // 🔥 Change this from 'public' to 'featured'
+    .then((res) => {
+      setAllCourses(res.data);
+    })
+    .catch((err) => console.error("Error loading courses:", err));
+  }, [backendUrl]);
 
   const filteredCourses = allCourses.filter((course) => {
     // 1. Search filter (checks title and description)
