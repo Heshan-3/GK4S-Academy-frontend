@@ -42,7 +42,7 @@ export default function Home() {
   const displayedCourses = filteredCourses.slice(0, 4);
 
   useEffect(() => {
-    axiosInstance.get("api/contents/featured")
+    axiosInstance.get("/api/contents/featured")
       .then((res) => {
         setFeaturedCourses(res.data);
       })
