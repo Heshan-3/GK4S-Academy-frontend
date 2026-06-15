@@ -5,7 +5,7 @@ import {
 
 import CourseCard from '../components/CourseCard';
 import axios from 'axios';
-import axiosInstance from '../utils/axiosInstance';
+import axiosInstance from '../utils/axiosInstance.js';
 
 export default function Course() {
   const [searchQuery, setSearchQuery] = useState('');
