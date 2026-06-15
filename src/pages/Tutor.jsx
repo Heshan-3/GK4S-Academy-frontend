@@ -20,12 +20,13 @@ export default function Tutor() {
           name: `${tutor.firstName} ${tutor.lastName}`,
           title: "Expert Instructor",
           expertise: ["Education", "Academic"], 
-          image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop', 
+          image: tutor.profileImage,
           courses: tutor.courseCount,
           bio: `Professional instructor located in ${tutor.address}`,
         }));
         
         setInstructors(formattedTutors);
+        console.log("Tutor images:", formattedTutors.map(t => t.image));
       } catch (err) {
         console.error("Error fetching tutors:", err);
       } finally {
@@ -35,18 +36,7 @@ export default function Tutor() {
     fetchTutors();
   }, []);
 
-  const expertiseAreas = [
-    'All Areas',
-    'Philosophy',
-    'Data Science',
-    'Writing',
-    'Art',
-    'Physics',
-    'Technology',
-    'Business',
-    'Psychology',
-  ];
-
+  
   const filteredInstructors = instructors.filter((instructor) => {
     const matchesSearch = instructor.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesExpertise =

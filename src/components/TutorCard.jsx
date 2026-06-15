@@ -12,7 +12,17 @@ export default function TutorCard({ name, title, expertise, image, courses, bio 
       {/* Profile Header */}
       <div className="flex items-start gap-4 mb-4">
         <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
-          <UserCircle2 className="w-full h-full object-cover" />
+          <img
+            src={
+              image
+                ? `${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, "")}${image}`
+                : `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`
+                
+            }
+            alt={name}
+            className="w-full h-full object-cover"
+            onLoad={() => console.log("Image URL:", `${import.meta.env.VITE_BACKEND_URL}${image}`)}
+          />
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-serif text-lg font-semibold text-navy group-hover:text-sage-dark transition-colors">

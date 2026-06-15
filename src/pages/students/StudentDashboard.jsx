@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Routes } from "react-router-dom";
-import { Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { Menu } from "lucide-react";
+
 import StudentSidebar from "./StudentSidebar";
 import StudentContents from "./StudentContents";
 
@@ -9,6 +10,8 @@ export default function StudentDashboard() {
   const [activePage, setActivePage] = useState("dashboard");
   const [userValidated, setUserValidated] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -40,26 +43,54 @@ export default function StudentDashboard() {
       });
   }, []);
 
-  if (!userValidated) return null;
+  if (!userValidated) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
       <StudentSidebar
-      currentUser={currentUser}
+        currentUser={currentUser}
         activePage={activePage}
         onNavigate={setActivePage}
+        isMobileOpen={isMobileOpen}
+        onCloseMobile={() => setIsMobileOpen(false)}
       />
 
-      {/* Main content */}
-      <main className="flex-1 lg:ml-64 p-6">
-        
-        <div>
-            <Routes>
-                <Route path="/" element={<StudentContents/>}></Route>
-            </Routes>
-        </div>
-      </main>
+      {/* Main Content Area */}
+      <div className="lg:ml-64 min-h-screen">
+
+        {/* Mobile Header */}
+        <header className="lg:hidden sticky top-0 z-30 bg-white border-b shadow-sm">
+          <div className="flex items-center justify-between px-4 py-3">
+            
+            <button
+              onClick={() => setIsMobileOpen(true)}
+              className="p-2 rounded-lg hover:bg-gray-100"
+            >
+              <Menu size={24} />
+            </button>
+
+            <h1 className="font-bold text-[#1e3a5f]">
+              GK4S Academy
+            </h1>
+
+            <div className="w-10"></div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="p-4 md:p-6">
+          <Routes>
+            <Route path="/" element={<StudentContents />} />
+          </Routes>
+        </main>
+      </div>
     </div>
   );
 }

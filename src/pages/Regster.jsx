@@ -7,7 +7,7 @@ import {
   UserIcon,
   HomeIcon,
   IdCardIcon,
-  CheckCircleIcon
+  CheckCircleIcon,
 } from "lucide-react";
 
 export default function Register() {
@@ -17,36 +17,53 @@ export default function Register() {
   const [lastName, setLastName] = useState("");
   const [nic, setNic] = useState("");
   const [address, setAddress] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post(`${import.meta.env.VITE_BACKEND_URL}/api/users/`, {
-        email,
-        password,
-        firstName,
-        lastName,
-        nic,
-        address
-      })
-      .then(() => {
-        setIsSuccess(true);
+    try {
+      const formData = new FormData();
+
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      formData.append("nic", nic);
+      formData.append("address", address);
+
+      if (profileImage) {
+        formData.append("profileImage", profileImage);
+      }
+
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setIsSuccess(true);
+
+      setTimeout(() => {
         navigate("/login");
-      })
-      .catch(() => {
-        alert("Error in user registration");
-      });
+      }, 1500);
+    } catch (error) {
+      console.error(error);
+      alert("Error in user registration");
+    }
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 flex items-center justify-center py-12 px-4 bg-cream">
         <div className="max-w-md w-full">
-          
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="font-serif text-3xl text-navy mb-3">
@@ -71,8 +88,6 @@ export default function Register() {
               </div>
             ) : (
               <form onSubmit={handleOnSubmit} className="space-y-5">
-
-                {/* First Name */}
                 <Input
                   label="First Name"
                   icon={<UserIcon />}
@@ -80,7 +95,6 @@ export default function Register() {
                   onChange={setFirstName}
                 />
 
-                {/* Last Name */}
                 <Input
                   label="Last Name"
                   icon={<UserIcon />}
@@ -88,7 +102,28 @@ export default function Register() {
                   onChange={setLastName}
                 />
 
-                {/* NIC */}
+                {/* Profile Image */}
+                <div>
+                  <label className="block text-sm mb-2">
+                    Profile Image
+                  </label>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setProfileImage(e.target.files[0])
+                    }
+                    className="w-full border rounded-lg p-3"
+                  />
+
+                  {profileImage && (
+                    <p className="text-sm text-gray-500 mt-2">
+                      Selected: {profileImage.name}
+                    </p>
+                  )}
+                </div>
+
                 <Input
                   label="NIC"
                   icon={<IdCardIcon />}
@@ -96,7 +131,6 @@ export default function Register() {
                   onChange={setNic}
                 />
 
-                {/* Email */}
                 <Input
                   label="Email Address"
                   icon={<MailIcon />}
@@ -105,7 +139,6 @@ export default function Register() {
                   onChange={setEmail}
                 />
 
-                {/* Password */}
                 <Input
                   label="Password"
                   icon={<LockIcon />}
@@ -114,7 +147,6 @@ export default function Register() {
                   onChange={setPassword}
                 />
 
-                {/* Address */}
                 <Input
                   label="Address"
                   icon={<HomeIcon />}
@@ -135,7 +167,10 @@ export default function Register() {
           {/* Footer */}
           <p className="text-center text-sm mt-6">
             Already have an account?{" "}
-            <Link to="/login" className="text-sage font-medium">
+            <Link
+              to="/login"
+              className="text-sage font-medium"
+            >
               Sign in
             </Link>
           </p>
@@ -145,15 +180,24 @@ export default function Register() {
   );
 }
 
-/* Reusable Input Component */
-function Input({ label, icon, type = "text", value, onChange }) {
+function Input({
+  label,
+  icon,
+  type = "text",
+  value,
+  onChange,
+}) {
   return (
     <div>
-      <label className="block text-sm mb-2">{label}</label>
+      <label className="block text-sm mb-2">
+        {label}
+      </label>
+
       <div className="relative">
         <span className="absolute left-3 top-3 h-5 w-5 text-gray-400">
           {icon}
         </span>
+
         <input
           type={type}
           value={value}

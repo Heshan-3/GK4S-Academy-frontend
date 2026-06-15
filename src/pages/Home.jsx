@@ -9,7 +9,7 @@ import {
   PlayCircleIcon,
   ArrowRightIcon
 } from 'lucide-react';
-import CourseCard  from '../components/CourseCard';
+import CourseCard from '../components/CourseCard';
 import axios from 'axios';
 
 const stats = [
@@ -18,7 +18,6 @@ const stats = [
   { icon: AwardIcon, label: 'Certificates Issued' },
   { icon: GlobeIcon, label: 'Countries Reached' }
 ];
-
 
 const categories = [
   { name: 'Philosophy', icon: '🏛️' },
@@ -29,17 +28,19 @@ const categories = [
   { name: 'Business', icon: '💼' }
 ];
 
-
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-
   const [featuredCourses, setFeaturedCourses] = useState([]);
+
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const filteredCourses = featuredCourses.filter(course => 
+  const filteredCourses = featuredCourses.filter(course =>
     course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.instructor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // ✅ Limit to 4 courses only
+  const displayedCourses = filteredCourses.slice(0, 4);
 
   useEffect(() => {
     axios
@@ -48,10 +49,10 @@ export default function Home() {
         setFeaturedCourses(res.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [backendUrl]);
 
   return (
-      <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
 
       {/* Hero Section */}
       <section className="bg-navy py-20 lg:py-28">
@@ -79,13 +80,11 @@ export default function Home() {
                   className="flex-1 px-3 py-4 text-gray-700 placeholder-gray-400 focus:outline-none"
                 />
               </div>
-              <button className="px-6 py-4 bg-sage text-white font-medium hover:bg-sage-dark transition-colors">
-                Search
+              <button className="px-6 py-4 bg-white text-gray font-medium hover:bg-sage-dark transition-colors">
+                <SearchIcon className="h-5 w-5" />
               </button>
             </div>
           </div>
-
-          {/* Popular Tags */}
         </div>
       </section>
 
@@ -107,6 +106,7 @@ export default function Home() {
       {/* Featured Courses */}
       <section className="py-20 bg-cream">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12">
             <div>
               <h2 className="font-serif text-3xl md:text-4xl text-navy mb-3">
@@ -116,6 +116,7 @@ export default function Home() {
                 Handpicked courses from our most distinguished instructors, designed to transform your understanding.
               </p>
             </div>
+
             <Link
               to="/course"
               className="mt-4 sm:mt-0 inline-flex items-center gap-2 text-sage font-medium hover:text-sage-dark transition-colors"
@@ -125,8 +126,9 @@ export default function Home() {
             </Link>
           </div>
 
+          {/* ✅ Only 4 courses shown here */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredCourses.map((content) => (
+            {displayedCourses.map((content) => (
               <CourseCard key={content._id} content={content} />
             ))}
           </div>
@@ -136,6 +138,7 @@ export default function Home() {
       {/* Categories Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
           <div className="text-center mb-12">
             <h2 className="font-serif text-3xl md:text-4xl text-navy mb-3">
               Explore by Category
@@ -174,6 +177,7 @@ export default function Home() {
           <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
             Join over 850,000 learners who have transformed their careers and expanded their horizons with GK4S Academy.
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/course"
@@ -181,6 +185,7 @@ export default function Home() {
             >
               Browse Courses
             </Link>
+
             <Link
               to="/about"
               className="px-8 py-3 bg-white/10 text-white font-medium rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center gap-2"

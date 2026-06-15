@@ -5,35 +5,42 @@ import { FileText, Download, Loader2 } from "lucide-react";
 export default function GetMaterials({ courseId }) {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // inside GetReview.jsx
+  // inside GetMaterials.jsx
 useEffect(() => {
-  // STOP: Only fetch if the student actually clicked the button
-  if (!isOpen || !contentId) return;
+  if (!courseId) return;
 
-  const fetchReviews = async () => {
+  const fetchMaterials = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token"); // Get your JWT
+      const token = localStorage.getItem("token");
       
+      // 💡 ADD THE QUERY PARAMETER HERE: ?courseId=${courseId}
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/reviews/content/${contentId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/materials/all?courseId=${courseId}`,
         {
-          headers: { Authorization: `Bearer ${token}` } // 🔑 Add this to fix 401
+          headers: { Authorization: `Bearer ${token}` }
         }
       );
-      setReviews(response.data);
+      setMaterials(response.data);
     } catch (err) {
-      console.error("Error fetching reviews:", err);
+      console.error("Error fetching materials:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  fetchReviews();
-}, [isOpen, contentId]); // Only runs when modal opens or ID changes
+  fetchMaterials();
+}, [courseId]); // Refetch whenever the courseId changes
 
-  if (loading) return <Loader2 className="animate-spin text-blue-500" />;
+  if (loading) return (
+    <div className="flex justify-center p-4">
+      <Loader2 className="animate-spin text-blue-500" />
+    </div>
+  );
+
+  if (error) return <p className="text-red-500 text-sm">{error}</p>;
 
   return (
     <div className="mt-4 space-y-2">
@@ -52,6 +59,7 @@ useEffect(() => {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 hover:bg-blue-100 rounded-full text-blue-600 transition"
+              title="Download File"
             >
               <Download size={18} />
             </a>

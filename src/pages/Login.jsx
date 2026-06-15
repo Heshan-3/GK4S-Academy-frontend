@@ -83,7 +83,6 @@ export default function Login() {
                 required
                 className="w-full pl-10 pr-10 py-3 border rounded-lg focus:ring-2 focus:ring-[#8ea17c] focus:outline-none"
               />
-              <Eye className="w-5 h-5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" />
             </div>
           </div>
 
@@ -93,12 +92,6 @@ export default function Login() {
               <input type="checkbox" className="rounded" />
               Remember me
             </label>
-            <Link
-              to="/forgot-password"
-              className="text-[#8ea17c] hover:underline"
-            >
-              Forgot password?
-            </Link>
           </div>
 
           {/* Button */}
@@ -110,22 +103,7 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Divider */}
-        <div className="my-6 flex items-center">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="px-3 text-sm text-gray-400">Or continue with</span>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-
-        {/* Social buttons */}
-        <div className="grid grid-cols-2 gap-4">
-          <button className="border rounded-lg py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
-            <span className="font-semibold">G</span> Google
-          </button>
-          <button className="border rounded-lg py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
-            GitHub
-          </button>
-        </div>
+        
       </div>
 
       {/* Footer */}
